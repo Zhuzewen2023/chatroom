@@ -1,0 +1,95 @@
+#include "api_reg.h"
+#include <json/json.h>
+#include "api_common.h"
+
+int decode_register_json(const std::string &str_json, string& username, string& email, string& password)
+{
+    bool res;
+    Json::Reader reader;
+    Json::Value root;
+    res = reader.parse(str_json, root);
+    if (!res) {
+        LOG_ERROR << "parse register json failed";
+        return -1;
+    }
+    if (root["username"].isNull()) {
+        LOG_ERROR << "username is null";
+        return -1;
+    }
+    username = root["username"].asString();
+    
+    if (root["email"].isNull()) {
+        LOG_ERROR << "email is null";
+        return -1;
+    }
+    email = root["email"].asString();
+
+    if (root["password"].isNull()) {
+        LOG_ERROR << "password is null";
+        return -1;
+    }
+    password = root["password"].asString();
+
+    return 0;
+}
+
+int encode_register_json(api_error_id input, string message, string& str_json)
+{
+    Json::Value root;
+    root["id"] = api_error_id_to_string(input);
+    root["message"] = message;
+    Json::FastWriter writer;
+    str_json = writer.write(root);
+    return 0;
+}
+
+int register_user(string& username ,string& email, string& password, api_error_id& error_id)
+{
+    CDBManager *db_manager = CDBManager::get_instance();
+    CDBConn *db_conn = db_manager->GetDBConn("chatroom_master");
+    AUTO_REL_DBCONN(db_manager, db_conn); //RAII归还连接给连接池
+    if (!db_conn) {
+        LOG_ERROR << "GetDBConn(chatroom_master) failed";
+        return -1;
+    }
+    // 先查询用户名 邮箱是否存在，如果存在就报错
+    string str_sql = FormatString("select id, username, email from users where username='%s' or email='%s'", username.c_str(), email.c_str());
+    CDBResultSet *result_set = db_conn->ExecuteQuery(str_sql.c_str());
+    if (result_set && result_set->Next()) {
+        if (result_set->GetString("username")) {
+            if (result_set->GetString("username") == username) {
+                error_id = api_error_id::username_exists;
+                LOG_WARN << "id: " << result_set->GetInt("id") << ", username: " << username << " 已经存在";    
+            }
+        }
+        if (result_set->GetString("email")) {
+            if (result_set->GetString("email") == email) {
+                error_id = api_error_id::email_exists;
+                LOG_WARN << "id: " << result_set->GetInt("id") << ", email: " << email << " 已经存在";
+            }
+        }
+        delete result_set;
+        return -1;
+    }
+
+    return 0;
+
+}
+
+int api_register_user(std::string &post_data, std::string &response_data)
+{
+    //解析 json username email password
+    std::string username;
+    std::string email;
+    std::string password;
+    //json反序列化
+    int ret = decode_register_json(post_data, username, email, password);
+    if (ret < 0) {
+        encode_register_json(api_error_id::bad_request, "请求参数不全", response_data);
+        return -1;
+    }
+    //封装register_user(username email password)
+    //返回注册结果
+    //正常注册返回cookie
+    //异常注册 400 Bad Request {"id":"USERNAME_EXISTS", "message": ""} {"id":"EMAIL_EXISTS", "message": ""}
+}
