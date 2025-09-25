@@ -420,14 +420,20 @@ CDBManager::~CDBManager()
 
 CDBManager *CDBManager::getInstance()
 {
-    if (!s_db_manager) {
-        s_db_manager = new CDBManager();
-        if (s_db_manager->Init()) {
-            delete s_db_manager;
-            s_db_manager = NULL;
-        }
+    static CDBManager instance;
+    static bool inited = instance.Init();
+    if (!inited) {
+        return nullptr;
     }
-    return s_db_manager;
+    return &instance;
+    // if (!s_db_manager) {
+    //     s_db_manager = new CDBManager();
+    //     if (s_db_manager->Init()) {
+    //         delete s_db_manager;
+    //         s_db_manager = NULL;
+    //     }
+    // }
+    // return s_db_manager;
 }
 
 void CDBManager::SetConfPath(const char* conf_path)
@@ -435,7 +441,7 @@ void CDBManager::SetConfPath(const char* conf_path)
     conf_path_ = conf_path;
 }
 
-int CDBManager::Init()
+bool CDBManager::Init()
 {
     LOG_INFO << "CDBManager Init";
     CConfigFileReader config_file(conf_path_.c_str());
@@ -443,7 +449,7 @@ int CDBManager::Init()
     char *db_instances = config_file.GetConfigValue("DBInstances");
     if (!db_instances) {
         LOG_ERROR << "DBInstances not found in config file";
-        return 1;
+        return false;
     }
 
     char host[64];
@@ -478,7 +484,7 @@ int CDBManager::Init()
         if (!db_host || !str_db_port || !db_dbname || !db_username || 
             !db_password || !str_maxconncnt) {
             LOG_ERROR << "Invalid Configure DB Instance: " << pool_name;
-            return 2;
+            return false;
         }
 
         int db_port = atoi(str_db_port);
@@ -487,11 +493,11 @@ int CDBManager::Init()
                                         db_password, db_dbname, db_maxconncnt);
         if (pDBPool->Init()) {
             LOG_ERROR << "Init DB Instance " << pool_name << " failed, pDBPool->Init() failed";
-            return 3;
+            return false;
         }
         dbpool_map_.insert(make_pair(pool_name, pDBPool));
     }
-    return 0;
+    return true;
 
 }
 

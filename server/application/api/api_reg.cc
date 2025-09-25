@@ -1,6 +1,10 @@
 #include "api_reg.h"
 #include <json/json.h>
 #include "api_common.h"
+#include "util.h"
+#include "config_file_reader.h"
+#include "db_pool.h"
+#include "muduo/base/md5.h
 
 int decode_register_json(const std::string &str_json, string& username, string& email, string& password)
 {
@@ -53,7 +57,7 @@ int register_user(string& username ,string& email, string& password, api_error_i
         return -1;
     }
     // 先查询用户名 邮箱是否存在，如果存在就报错
-    string str_sql = FormatString("select id, username, email from users where username='%s' or email='%s'", username.c_str(), email.c_str());
+    std::string str_sql = FormatString("select id, username, email from users where username='%s' or email='%s'", username.c_str(), email.c_str());
     CDBResultSet *result_set = db_conn->ExecuteQuery(str_sql.c_str());
     if (result_set && result_set->Next()) {
         if (result_set->GetString("username")) {
@@ -72,7 +76,35 @@ int register_user(string& username ,string& email, string& password, api_error_i
         return -1;
     }
 
-    return 0;
+    /*用户不存在，注册账号*/
+    /*随机数生成salt值*/
+    std::string salt = RandomString(16);
+    MD5 md5(password + salt);
+    string password_hash = md5.toString();
+    LOG_INFO << "register_user: salt = " << salt;
+    
+    /*插入语句*/
+    str_sql = "INSERT INTO USERS (`username`, `email`, `password_hash`, `salt`) VALUES(?, ?, ?, ?)";
+    LOG_INFO << "Execute: " << str_sql;
+    CDBPrepareStatement *stmt = new CDBPrepareStatement();
+    if (stmt->Init(db_conn->GetMysql(), str_sql)) {
+        uint32_t index = 0;
+        stmt->SetParam(index++, username);
+        stmt->SetParam(index++, email);
+        stmt->SetParam(index++, password_hash);
+        stmt->SetParam(index++, salt);
+        bool bRet = stmt->ExecuteUpdate();
+        if (bRet) {
+            ret = 0;
+            user_id = db_conn->GetInsertId();
+            LOG_INFO << "insert user_id " << user_id << ", username: " << username;
+        } else {
+            LOG_ERROR << "insert users failed. " << str_sql;
+            ret = -1;
+        }
+    }
+    delete stmt;
+    return ret;
 
 }
 
@@ -89,7 +121,16 @@ int api_register_user(std::string &post_data, std::string &response_data)
         return -1;
     }
     //封装register_user(username email password)
+    api_error_id error_id = api_error_id::bad_request;
+    ret = register_user(username, email, password);
     //返回注册结果
+    if (ret == 0) {
+        /*注册成功需要产生cookie*/
+        resp_data = ;
+    } else {
+        encode_register_json(error_id, api_error_id_to_string(error_id), response_data);
+    }
     //正常注册返回cookie
     //异常注册 400 Bad Request {"id":"USERNAME_EXISTS", "message": ""} {"id":"EMAIL_EXISTS", "message": ""}
+    return ret;
 }

@@ -127,7 +127,7 @@ public:
     static void SetConfPath(const char* conf_path);
     static CDBManager *getInstance();
 
-    int Init();
+    bool Init();
 
     CDBConn *GetDBConn(const char *dbpool_name);
     void RelDBConn(CDBConn *pConn);
