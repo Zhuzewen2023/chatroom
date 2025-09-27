@@ -1,5 +1,6 @@
 #include "db_pool.h"
 #include <string>
+#include <list>
 #include "muduo/base/Logging.h"
 #include "config_file_reader.h"
 
@@ -63,6 +64,16 @@ bool CDBResultSet::GetInt(const char* key, int& out)
     }
 }
 
+int CDBResultSet::GetInt(const char* key)
+{
+    int idx = _GetIndex(key);
+    if (idx == -1) {
+        return 0;
+    } else {
+        return atoi(row_[idx]);
+    }
+}
+
 bool CDBResultSet::GetString(const char* key, char*& out)
 {
     int idx = _GetIndex(key);
@@ -71,6 +82,16 @@ bool CDBResultSet::GetString(const char* key, char*& out)
     } else {
         out = row_[idx];
         return true;
+    }
+}
+
+char* CDBResultSet::GetString(const char* key)
+{
+    int idx = _GetIndex(key);
+    if (idx == -1) {
+        return NULL;
+    } else {
+        return row_[idx];
     }
 }
 
@@ -224,7 +245,7 @@ CDBPool::CDBPool(const char* pool_name, const char* db_server_ip,
     password_ = password;
     db_name_ = db_name;
     db_max_conn_cnt_ = max_conn_cnt;
-    db_cur_conn_cnt = MIN_DB_CONN_CNT;
+    db_curr_conn_cnt_ = MIN_DB_CONN_CNT;
 
 }
 
@@ -244,7 +265,7 @@ CDBPool::~CDBPool()
 
 int CDBPool::Init()
 {
-     for (int i = 0; i < db_cur_conn_cnt_; i++) {
+     for (int i = 0; i < db_curr_conn_cnt_; i++) {
         CDBConn *db_conn = new CDBConn(this);
         int ret = db_conn->Init();
         if (ret) {
@@ -261,14 +282,14 @@ int CDBPool::Init()
 CDBConn* CDBPool::GetDBConn(const int timeout_ms)
 {
     std::unique_lock<std::mutex> lock(mutex_);
-    if (abort_request) {
+    if (abort_request_) {
         LOG_WARN << "CDBPool is aborting...";
         return NULL;
     }
 
     if (free_list_.empty()) { //没有连接可以用
         //当前连接数量已经达到了最大连接数量
-        if (db_cur_conn_cnt_ >= db_max_conn_cnt_) {
+        if (db_curr_conn_cnt_ >= db_max_conn_cnt_) {
             // 查看是否需要超时等待
             if (timeout_ms <= 0) { //死等，直到有连接可用或者连接池退出
                 cond_var_.wait(lock, [this] {
@@ -276,7 +297,7 @@ CDBConn* CDBPool::GetDBConn(const int timeout_ms)
                 });
             } else {
                 // 超时等待
-                cond_car_.wait_for(lock, std::chrono::milliseconds(timeout_ms), 
+                cond_var_.wait_for(lock, std::chrono::milliseconds(timeout_ms), 
                 [this] { return (!free_list_.empty()) | abort_request_; });
                 //超时或者free_list不是empty或者abort_request
                 if (free_list_.empty()) {
@@ -299,7 +320,7 @@ CDBConn* CDBPool::GetDBConn(const int timeout_ms)
                 return NULL;
             } else {
                 free_list_.push_back(db_conn);
-                db_cur_conn_cnt_++;
+                db_curr_conn_cnt_++;
             }
         }
     }
@@ -329,7 +350,7 @@ void CDBPool::RelDBConn(CDBConn *pConn)
 }
 
 CDBConn::CDBConn(CDBPool *pPool) {
-    db_pool = pPool;
+    db_pool_ = pPool;
     mysql_ = NULL;
 }
 
@@ -406,7 +427,91 @@ bool CDBConn::ExecutePassQuery(const char* sql_query)
     return true;
 }
 
+CDBResultSet* CDBConn::ExecuteQuery(const char *sql_query) {
+    mysql_ping(mysql_);
+    row_num = 0;
+    if (mysql_real_query(mysql_, sql_query, strlen(sql_query))) {
+        LOG_ERROR << "mysql_real_query failed: " << mysql_error(mysql_) << ", sql:" << sql_query;
+        return NULL;
+    }
+    // 返回结果
+    MYSQL_RES *res = mysql_store_result(mysql_); // 返回结果 https://www.mysqlzh.com/api/66.html
+    if (!res) // 如果查询未返回结果集和读取结果集失败都会返回NULL
+    {
+        LOG_ERROR << "mysql_store_result failed: " <<  mysql_error(mysql_);
+        return NULL;
+    }
 
+    CDBResultSet *pResultSet = new CDBResultSet(res);
+    return pResultSet;
+}
+
+
+/*
+1.执行成功，则返回受影响的行的数目，如果最近一次查询失败的话，函数返回 -1
+
+2.对于delete,将返回实际删除的行数.
+
+3.对于update,如果更新的列值原值和新值一样,如update tables set col1=10 where
+id=1; id=1该条记录原值就是10的话,则返回0。
+
+mysql_affected_rows返回的是实际更新的行数,而不是匹配到的行数。
+*/
+bool CDBConn::ExecuteUpdate(const char *sql_query, bool care_affected_rows) {
+    mysql_ping(mysql_);
+
+    if (mysql_real_query(mysql_, sql_query, strlen(sql_query))) {
+        LOG_ERROR << "mysql_real_query failed: " << mysql_error(mysql_) << ", sql:" << sql_query;
+        return false;
+    }
+
+    if (mysql_affected_rows(mysql_) > 0) {
+        return true;
+    } else {                      // 影响的行数为0时
+        if (care_affected_rows) { // 如果在意影响的行数时, 返回false,否则返回true            
+            LOG_ERROR << "mysql_real_query failed: " << mysql_error(mysql_) << ", sql:" << sql_query;
+            return false;
+        } else {
+            LOG_WARN << "affected_rows=0, sql: " <<  sql_query;
+            return true;
+        }
+    }
+}
+
+bool CDBConn::StartTransaction() {
+    mysql_ping(mysql_);
+
+    if (mysql_real_query(mysql_, "start transaction\n", 17)) {
+        LOG_ERROR << "mysql_real_query failed: " << mysql_error(mysql_) << " start transaction failed";
+        return false;
+    }
+
+    return true;
+}
+
+bool CDBConn::Rollback() {
+    mysql_ping(mysql_);
+
+    if (mysql_real_query(mysql_, "rollback\n", 8)) {
+        LOG_ERROR << "mysql_real_query failed: " << mysql_error(mysql_) << ", sql: rollback";
+        return false;
+    }
+
+    return true;
+}
+
+bool CDBConn::Commit() {
+    mysql_ping(mysql_);
+
+    if (mysql_real_query(mysql_, "commit\n", 6)) {
+        LOG_ERROR << "mysql_real_query failed: " << mysql_error(mysql_) << ", sql: commit";
+        return false;
+    }
+
+    return true;
+}
+
+uint32_t CDBConn::GetInsertId() { return (uint32_t)mysql_insert_id(mysql_); }
 
 CDBManager::CDBManager() 
 {
@@ -522,3 +627,5 @@ void CDBManager::RelDBConn(CDBConn *pConn)
         it->second->RelDBConn(pConn);
     }
 }
+
+std::string CDBManager::conf_path_;

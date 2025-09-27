@@ -2,6 +2,8 @@
 #include "config_file_reader.h"
 #include "muduo/base/Logging.h"
 
+#include <vector>
+
 #define MIN_CACHE_CONN_CNT 2
 #define MAX_CACHE_CONN_FAIL_NUM 10
 
@@ -185,7 +187,7 @@ std::string CacheConn::SetEx(std::string key, int timeout, std::string value)
     return ret_value;
 }
 
-bool CacheConn::MGet(const vector<std::string>& keys, std::map<std::string, std::string>& ret_value)
+bool CacheConn::MGet(const std::vector<std::string>& keys, std::map<std::string, std::string>& ret_value)
 {
     if (!Init()) {
         return false;
@@ -195,7 +197,7 @@ bool CacheConn::MGet(const vector<std::string>& keys, std::map<std::string, std:
     }
     std::string str_key;
     bool first = true;
-    for (vector<std::string>::iterator it = keys.begin(); it != keys.end(); it++) {
+    for (std::vector<std::string>::const_iterator it = keys.begin(); it != keys.end(); it++) {
         if (first) {
             first = false;
             str_key = *it;
@@ -461,7 +463,7 @@ std::string CacheConn::HMSet(std::string key, const std::map<std::string, std::s
     if (argc <= 2) {
         return ret_value;
     }
-    char** argv = new char*[argc];
+    const char** argv = new const char*[argc];
     if (!argv) {
         return ret_value;
     }
@@ -1028,6 +1030,80 @@ bool CachePool::Init()
     return true;
 }
 
+CacheConn* CachePool::GetCacheConn(const int timeout_ms)
+{
+    std::unique_lock<std::mutex> lock(mutex_);
+    if (abort_request_) {
+        LOG_INFO << "CachePool::GetCacheConn abort_request_ is true";
+        return nullptr;
+    }
+
+    if (free_list_.empty()) {
+        if (cur_conn_cnt_ >= max_conn_cnt_) // 等待的逻辑
+        {
+            // 如果已经到达了，看看是否需要超时等待
+            if (timeout_ms <= 0) // 死等，直到有连接可以用 或者 连接池要退出
+            {
+                LOG_INFO << "wait ms: " << timeout_ms;
+                cond_var_.wait(lock, [this] {
+                    // 当前连接数量小于最大连接数量 或者请求释放连接池时退出
+                    return (!free_list_.empty()) | abort_request_;
+                });
+            } else {
+                // return如果返回 false，继续wait(或者超时),
+                // 如果返回true退出wait 1.m_free_list不为空 2.超时退出
+                // 3. m_abort_request被置为true，要释放整个连接池
+                cond_var_.wait_for(
+                    lock, std::chrono::milliseconds(timeout_ms),
+                    [this] { return (!free_list_.empty()) | abort_request_; });
+                // 带超时功能时还要判断是否为空
+                if (free_list_.empty()) // 如果连接池还是没有空闲则退出
+                {
+                    return nullptr;
+                }
+            }
+
+            if (abort_request_) {
+                LOG_INFO << "CachePool::GetCacheConn abort_request_ is true";
+                return nullptr;
+            }
+        } else // 还没有到最大连接则创建连接
+        {
+            CacheConn* pConn = new CacheConn(server_ip_.c_str(), server_port_, db_index_,
+                                            password_.c_str(), pool_name_.c_str());
+            if (pConn->Init()) {
+                delete pConn;
+                return NULL;
+            }
+            cur_conn_cnt_++;
+            LOG_INFO << "create new conn, curr_conn_cnt_: " << cur_conn_cnt_;
+            free_list_.push_back(pConn);
+        }
+    }
+    CacheConn* pConn = free_list_.front();
+    free_list_.pop_front();
+    return pConn;
+}
+
+void CachePool::RelCacheConn(CacheConn *p_cache_conn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    list<CacheConn *>::iterator it = free_list_.begin();
+    for (; it != free_list_.end(); it++) {
+        if (*it == p_cache_conn) {
+            LOG_WARN << "RelDBConn warning, the conn has in free_list";
+            break;
+        }
+    }
+
+    if (it == free_list_.end()) {
+        // m_used_list.remove(pConn);
+        free_list_.push_back(p_cache_conn);
+        cond_var_.notify_one(); // 通知取队列
+    } else {
+        LOG_ERROR << "RelDBConn failed"; // 不再次回收连接
+    }
+}
 
 CacheManager::CacheManager() 
 {
@@ -1092,7 +1168,7 @@ bool CacheManager::Init()
         int cache_db = atoi(str_cache_db);
         int max_conn_cnt = atoi(str_max_conn_cnt);
 
-        CachePool* pCachePool = new CachePool(pool_name, cache_host, atoi(cache_port), atoi(str_cache_db), "", atoi(str_max_conn_cnt));
+        CachePool* pCachePool = new CachePool(pool_name, cache_host, cache_port, atoi(str_cache_db), "", atoi(str_max_conn_cnt));
         if (!pCachePool) {
             LOG_ERROR << "new CachePool failed";
             return false;
@@ -1108,3 +1184,26 @@ bool CacheManager::Init()
     return true;
 
 }
+
+CacheConn *CacheManager::GetCacheConn(const char *pool_name) {
+    map<string, CachePool *>::iterator it = cache_pool_map_.find(pool_name);
+    if (it != cache_pool_map_.end()) {
+        return it->second->GetCacheConn();
+    } else {
+        return nullptr;
+    }
+}
+
+void CacheManager::RelCacheConn(CacheConn *cache_conn) {
+    if (!cache_conn) {
+        return;
+    }
+
+    map<string, CachePool *>::iterator it =
+        cache_pool_map_.find(cache_conn->GetPoolName());
+    if (it != cache_pool_map_.end()) {
+        return it->second->RelCacheConn(cache_conn);
+    }
+}
+
+std::string CacheManager::conf_path_;

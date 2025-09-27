@@ -55,7 +55,7 @@ std::string Int2String(uint32_t num);
 
 uint32_t String2Int(const std::string &value);
 
-void ReplaceMark(std::string &str, std::string& new_value, uint32_t &begin_pos);
+void ReplaceMark(std::string &str, const std::string& new_value, uint32_t &begin_pos);
 
 void ReplaceMark(std::string& str, uint32_t new_value, uint32_t &begin_pos);
 

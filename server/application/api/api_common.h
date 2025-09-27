@@ -3,8 +3,10 @@
 
 #include <string>
 #include <cstdio>
+#include <memory>
 
 #include "api_reg.h"
+#include "muduo/base/Logging.h"
 
 template <typename... Args>
 std::string FormatString(const std::string &format, Args... args)

@@ -1,6 +1,9 @@
 #include "util.h"
 #include <cstdint>
 #include <cstddef>
+#include <unistd.h>
+#include <string>
+#include <sstream>
 
 CStrExplode::CStrExplode(char *str, char seperator)
 {
@@ -22,7 +25,7 @@ CStrExplode::CStrExplode(char *str, char seperator)
         if (*pos == seperator && pos != start) {
             uint32_t len = pos - start;
             item_list_[idx] = new char[len + 1];
-            std::strncpy(item_list_[idx], start, len);
+            strncpy(item_list_[idx], start, len);
             item_list_[idx][len] = '\0';
             idx++;
 
@@ -107,7 +110,7 @@ uint32_t String2Int(const std::string &value)
     return (uint32_t)atoi(value.c_str());
 }
 
-void ReplaceMark(std::string &str, std::string& new_value, uint32_t &begin_pos)
+void ReplaceMark(std::string &str, const std::string& new_value, uint32_t &begin_pos)
 {
     std::string::size_type pos = str.find('?', begin_pos);
     if (pos == std::string::npos) {

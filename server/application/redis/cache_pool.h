@@ -34,7 +34,7 @@ public:
     std::string Get(std::string key);
     std::string Set(std::string key, std::string value);
     std::string SetEx(std::string key, int timeout, std::string value);
-    bool MGet(const vector<std::string>& keys, 
+    bool MGet(const std::vector<std::string>& keys, 
         std::map<std::string, std::string>& ret_value);
     bool IsExists(std::string& key);
     long Del(std::string key);
@@ -92,9 +92,11 @@ public:
     CachePool(const char* pool_name, const char* server_ip,
               int server_port, int db_index,
               const char* password, int max_conn_cnt);
-    ~CachePool() {}
+    ~CachePool();
 
     bool Init();
+    CacheConn* GetCacheConn(const int timeout_ms = 0);
+    void RelCacheConn(CacheConn* cache_conn);
     const char* GetPoolName() { return pool_name_.c_str(); }
     const char* GetServerIP() { return server_ip_.c_str(); }
     int GetServerPort() { return server_port_; }
@@ -127,11 +129,29 @@ public:
     static void SetConfPath(const char* conf_path);
     static CacheManager *getInstance();
     bool Init();
+    CacheConn* GetCacheConn(const char* pool_name);
+    void RelCacheConn(CacheConn* cache_conn);
 private:
     CacheManager();
 private:
     std::map<std::string, CachePool*> cache_pool_map_;
     static std::string conf_path_;
 };
+
+class AutoRelCacheCon {
+  public:
+    AutoRelCacheCon(CacheManager *manger, CacheConn *conn)
+        : manger_(manger), conn_(conn) {}
+    ~AutoRelCacheCon() {
+        if (manger_) {
+            manger_->RelCacheConn(conn_);
+        }
+    } //在析构函数规划
+  private:
+    CacheManager *manger_ = NULL;
+    CacheConn *conn_ = NULL;
+};
+
+#define AUTO_REL_CACHECONN(m, c) AutoRelCacheCon autorelcacheconn(m, c)
 
 #endif

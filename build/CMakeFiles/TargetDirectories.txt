@@ -1,0 +1,5 @@
+/root/chatroom/build/CMakeFiles/edit_cache.dir
+/root/chatroom/build/CMakeFiles/rebuild_cache.dir
+/root/chatroom/build/server/CMakeFiles/chatroom.dir
+/root/chatroom/build/server/CMakeFiles/edit_cache.dir
+/root/chatroom/build/server/CMakeFiles/rebuild_cache.dir

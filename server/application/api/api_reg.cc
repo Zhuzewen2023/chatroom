@@ -4,7 +4,7 @@
 #include "util.h"
 #include "config_file_reader.h"
 #include "db_pool.h"
-#include "muduo/base/md5.h
+#include "muduo/base/md5.h"
 
 int decode_register_json(const std::string &str_json, string& username, string& email, string& password)
 {
@@ -49,7 +49,8 @@ int encode_register_json(api_error_id input, string message, string& str_json)
 
 int register_user(string& username ,string& email, string& password, api_error_id& error_id)
 {
-    CDBManager *db_manager = CDBManager::get_instance();
+    int ret = -1;
+    CDBManager *db_manager = CDBManager::getInstance();
     CDBConn *db_conn = db_manager->GetDBConn("chatroom_master");
     AUTO_REL_DBCONN(db_manager, db_conn); //RAII归还连接给连接池
     if (!db_conn) {
@@ -96,7 +97,7 @@ int register_user(string& username ,string& email, string& password, api_error_i
         bool bRet = stmt->ExecuteUpdate();
         if (bRet) {
             ret = 0;
-            user_id = db_conn->GetInsertId();
+            uint32_t user_id = db_conn->GetInsertId();
             LOG_INFO << "insert user_id " << user_id << ", username: " << username;
         } else {
             LOG_ERROR << "insert users failed. " << str_sql;
@@ -115,6 +116,7 @@ int api_register_user(std::string &post_data, std::string &response_data)
     std::string email;
     std::string password;
     //json反序列化
+    /*从json获取username, email, password*/
     int ret = decode_register_json(post_data, username, email, password);
     if (ret < 0) {
         encode_register_json(api_error_id::bad_request, "请求参数不全", response_data);
@@ -122,15 +124,18 @@ int api_register_user(std::string &post_data, std::string &response_data)
     }
     //封装register_user(username email password)
     api_error_id error_id = api_error_id::bad_request;
-    ret = register_user(username, email, password);
+    /*将用户信息插入MySQL*/
+    ret = register_user(username, email, password, error_id);
     //返回注册结果
     if (ret == 0) {
         /*注册成功需要产生cookie*/
-        resp_data = ;
+        /*生成cookie填充resp_data*/
+        set_cookie(email, response_data);
     } else {
+        /*将error_id和第二个参数的string组织为json字符串填充response_data*/
         encode_register_json(error_id, api_error_id_to_string(error_id), response_data);
     }
-    //正常注册返回cookie
+
     //异常注册 400 Bad Request {"id":"USERNAME_EXISTS", "message": ""} {"id":"EMAIL_EXISTS", "message": ""}
     return ret;
 }

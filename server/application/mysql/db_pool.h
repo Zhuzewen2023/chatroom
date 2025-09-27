@@ -20,7 +20,9 @@ public:
 
     bool Next();
     bool GetInt(const char* key, int& out);
+    int GetInt(const char* key);
     bool GetString(const char* key, char*& out);
+    char* GetString(const char* key);
 private:
     int _GetIndex(const char* key);
     MYSQL_RES *res_;
@@ -56,6 +58,37 @@ class CDBConn
 public:
     CDBConn(CDBPool *pDBPool);
     virtual ~CDBConn();
+    int Init();
+
+    // 创建表
+    bool ExecuteCreate(const char *sql_query);
+    // 删除表
+    bool ExecuteDrop(const char *sql_query);
+    // 查询
+    CDBResultSet *ExecuteQuery(const char *sql_query);
+
+    bool ExecutePassQuery(const char *sql_query);
+    /**
+     *  执行DB更新，修改
+     *
+     *  @param sql_query     sql
+     *  @param care_affected_rows  是否在意影响的行数，false:不在意；true:在意
+     *
+     *  @return 成功返回true 失败返回false
+     */
+    bool ExecuteUpdate(const char *sql_query, bool care_affected_rows = true);
+    uint32_t GetInsertId();
+
+    // 开启事务
+    bool StartTransaction();
+    // 提交事务
+    bool Commit();
+    // 回滚事务
+    bool Rollback();
+    // 获取连接池名
+    const char *GetPoolName();
+    MYSQL *GetMysql() { return mysql_; }
+    int GetRowNum() { return row_num; }
 private:
     int row_num = 0;
     CDBPool *db_pool_;
@@ -113,8 +146,8 @@ private:
     std::string db_name_;
     int db_curr_conn_cnt_;
     int db_max_conn_cnt_;
-    list<CDBConn*> free_list_;
-    list<CDBConn*> used_list_;
+    std::list<CDBConn*> free_list_;
+    std::list<CDBConn*> used_list_;
     std::mutex mutex_;
     std::condition_variable cond_var_;
     bool abort_request_ = false;
@@ -136,7 +169,7 @@ private:
     CDBManager();
 private:
     static CDBManager *s_db_manager;
-    map<string, CDBPool *> dbpool_map_;
+    std::map<std::string, CDBPool *> dbpool_map_;
     static std::string conf_path_;
 };
 

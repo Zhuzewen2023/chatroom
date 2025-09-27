@@ -8,7 +8,7 @@
 class CConfigFileReader
 {
 public:
-    CConfigFileReader(const char* filename);
+    CConfigFileReader(const std::string& filename);
     ~CConfigFileReader();
 
     char *GetConfigValue(const char* name);
@@ -22,6 +22,6 @@ private:
     bool load_ok_;
     map<std::string, std::string> config_map_;
     std::string config_file_;
-}
+};
 
 #endif
