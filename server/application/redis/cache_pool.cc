@@ -49,6 +49,7 @@ bool CacheConn::Init()
 {
     /*context非空，连接正常*/
     if (context_) {
+        LOG_INFO << "CacheConn::Init, context_ is not null";
         return true;
     }
     uint64_t cur_time = (uint64_t)time(NULL);
@@ -69,6 +70,9 @@ bool CacheConn::Init()
         }
         return false;
     }
+    LOG_INFO << "CacheConn::Init, connect to redis server success, ip: "
+             << server_ip_ << ", port: " << server_port_ << ", db_index_: " << db_index_
+             << ", pool_name_: " << pool_name_;
     redisReply* reply;
     /*验证*/
     if (!password_.empty()) {
@@ -86,6 +90,7 @@ bool CacheConn::Init()
 
     reply = (redisReply*)redisCommand(context_, "SELECT %d", db_index_);
     if (reply && (reply->type == REDIS_REPLY_STATUS) && (strncmp(reply->str, "OK", 2) == 0)) {
+        LOG_INFO << "SELECT db_index success: " << db_index_;
         freeReplyObject(reply);
         return true;
     } else {
@@ -1019,7 +1024,9 @@ bool CachePool::Init()
     for(int i = 0; i < cur_conn_cnt_; i++) {
         CacheConn* pConn = new CacheConn(server_ip_.c_str(), server_port_, db_index_,
                                         password_.c_str(), pool_name_.c_str());
-        if (pConn->Init()) {
+        if (!pConn->Init()) {
+            LOG_ERROR << "CachePool::Init, init conn failed, pool_name_: " << pool_name_.c_str()
+                      << ", server_ip_: " << server_ip_.c_str() << ", server_port_: " << server_port_;
             delete pConn;
             return false;
         }
@@ -1032,6 +1039,8 @@ bool CachePool::Init()
 
 CacheConn* CachePool::GetCacheConn(const int timeout_ms)
 {
+    LOG_INFO << "CachePool::GetCacheConn, free_list size: " << free_list_.size()
+              << ", cur_conn_cnt_: " << cur_conn_cnt_;
     std::unique_lock<std::mutex> lock(mutex_);
     if (abort_request_) {
         LOG_INFO << "CachePool::GetCacheConn abort_request_ is true";
@@ -1059,6 +1068,7 @@ CacheConn* CachePool::GetCacheConn(const int timeout_ms)
                 // 带超时功能时还要判断是否为空
                 if (free_list_.empty()) // 如果连接池还是没有空闲则退出
                 {
+                    LOG_INFO << "CachePool::GetCacheConn wait timeout";
                     return nullptr;
                 }
             }
@@ -1173,7 +1183,7 @@ bool CacheManager::Init()
             LOG_ERROR << "new CachePool failed";
             return false;
         }
-        if (pCachePool->Init()) {
+        if (!pCachePool->Init()) {
             LOG_ERROR << "init CachePool failed";
             delete pCachePool;
             return false;
@@ -1186,10 +1196,12 @@ bool CacheManager::Init()
 }
 
 CacheConn *CacheManager::GetCacheConn(const char *pool_name) {
+    LOG_INFO << "GetCacheConn, pool_name: " << pool_name;
     map<string, CachePool *>::iterator it = cache_pool_map_.find(pool_name);
     if (it != cache_pool_map_.end()) {
         return it->second->GetCacheConn();
     } else {
+        LOG_ERROR << "not found cache pool: " << pool_name;
         return nullptr;
     }
 }

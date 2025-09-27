@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
     signal(SIGPIPE, SIG_IGN); //忽略SIGPIPE信号
     int ret = 0;
 
-    char*   str_chat_room_conf = NULL;
+    char*  str_chat_room_conf = NULL;
     if(argc > 1) {
         str_chat_room_conf = argv[1];  // 指向配置文件路径
     } else {
@@ -160,6 +160,7 @@ int main(int argc, char *argv[])
     Logger::setLogLevel(log_level);
 
      // 初始化mysql、redis连接池，内部也会读取读取配置文件 chat-room.conf
+    LOG_INFO << "Server start, init db and cache pool, conf path: " << str_chat_room_conf;
     CacheManager::SetConfPath(str_chat_room_conf); //设置配置文件路径
     CacheManager *cache_manager = CacheManager::getInstance();
     if (!cache_manager) {

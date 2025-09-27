@@ -167,7 +167,10 @@ server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o: \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h \
  /usr/include/c++/11/bits/erase_if.h /usr/include/c++/11/mutex \
- /usr/include/mysql/mysql.h \
+ /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
+ /usr/include/c++/11/bits/stl_vector.h \
+ /usr/include/c++/11/bits/stl_bvector.h \
+ /usr/include/c++/11/bits/vector.tcc /usr/include/mysql/mysql.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
  /usr/include/mysql/field_types.h /usr/include/mysql/my_list.h \
  /usr/include/mysql/mysql_com.h /usr/include/mysql/my_command.h \
@@ -176,7 +179,12 @@ server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o: \
  /usr/include/mysql/client_plugin.h /usr/include/c++/11/stdlib.h \
  /usr/include/mysql/plugin_auth_common.h \
  /usr/include/mysql/mysql_version.h /usr/include/mysql/mysql_time.h \
- /usr/include/mysql/errmsg.h /root/chatroom/server/muduo/base/Logging.h \
+ /usr/include/mysql/errmsg.h /usr/include/c++/11/fstream \
+ /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc \
+ /root/chatroom/server/muduo/base/Logging.h \
  /root/chatroom/server/muduo/base/LogStream.h \
  /root/chatroom/server/muduo/base/noncopyable.h \
  /root/chatroom/server/muduo/base/StringPiece.h /usr/include/string.h \

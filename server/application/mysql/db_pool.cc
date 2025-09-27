@@ -1,6 +1,8 @@
 #include "db_pool.h"
 #include <string>
 #include <list>
+#include <vector>
+#include <fstream>
 #include "muduo/base/Logging.h"
 #include "config_file_reader.h"
 
@@ -546,6 +548,35 @@ void CDBManager::SetConfPath(const char* conf_path)
     conf_path_ = conf_path;
 }
 
+std::string CDBManager::ReadSqlFile(const std::string& file_path)
+{
+    std::ifstream file_stream(file_path);
+    if (!file_stream.is_open()) {
+        LOG_ERROR << "ReadSqlFile: open file failed, file_path: " << file_path;
+        return "";
+    }
+
+    std::string sql_content((std::istreambuf_iterator<char>(file_stream)),
+                             std::istreambuf_iterator<char>());
+    file_stream.close();
+    return sql_content;
+}
+
+std::vector<std::string> CDBManager::SplitSqlStatements(const std::string& sql_content)
+{
+    std::vector<std::string> statements;
+    size_t start = 0;
+    size_t end = sql_content.find(";");
+    while (end != std::string::npos) {
+        std::string statement = sql_content.substr(start, end - start);
+        statements.push_back(statement);
+        start = end + 1; // 跳过分号
+        end = sql_content.find(";", start);
+    }
+
+    return statements;
+}
+
 bool CDBManager::Init()
 {
     LOG_INFO << "CDBManager Init";
@@ -600,7 +631,32 @@ bool CDBManager::Init()
             LOG_ERROR << "Init DB Instance " << pool_name << " failed, pDBPool->Init() failed";
             return false;
         }
+        LOG_INFO << "Initialized DB Instance " << pool_name << " successfully";
+
+
         dbpool_map_.insert(make_pair(pool_name, pDBPool));
+
+        CDBConn* conn = GetDBConn(pool_name); // 测试能否获取连接
+        if (!conn) {
+            LOG_ERROR << "Init DB Instance " << pool_name << " failed, GetDBConn failed";
+            return false;
+        }
+        std::string sql_content = ReadSqlFile("../../z2w_chatroom.sql");
+        LOG_INFO << "sql_content: " << sql_content;
+        std::vector<std::string> sql_statements = SplitSqlStatements(sql_content);
+        for (const auto& statement : sql_statements) {
+            if (statement.empty()) {
+                continue; // 跳过空语句
+            }
+            if (!conn->ExecuteCreate(statement.c_str())) {
+                LOG_ERROR << "ExecuteCreate failed for statement: " << statement;
+                RelDBConn(conn);
+                return false;
+            }
+        }
+        LOG_INFO << "Initialized DB Data " << pool_name << " successfully";
+        RelDBConn(conn);
+
     }
     return true;
 

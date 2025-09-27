@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <mutex>
+#include <vector>
 #include <string>
 #include <cstdint>
 #include <mysql.h>
@@ -161,7 +162,8 @@ public:
     static CDBManager *getInstance();
 
     bool Init();
-
+    std::string ReadSqlFile(const std::string& file_path);
+    std::vector<std::string> SplitSqlStatements(const std::string& sql_content);
     CDBConn *GetDBConn(const char *dbpool_name);
     void RelDBConn(CDBConn *pConn);
 

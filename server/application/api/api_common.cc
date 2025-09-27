@@ -43,11 +43,13 @@ int set_cookie(std::string email, std::string& cookie)
     /*获取redis连接池*/
     CacheManager *cache_manager = CacheManager::getInstance();
     if (!cache_manager) {
+        LOG_ERROR << "get cache manager failed";
         return -1;
     }
     /*token为缓冲池的名字*/
     CacheConn* cache_conn = cache_manager->GetCacheConn("token");
     if (!cache_conn) {
+        LOG_ERROR << "get cache conn failed";
         return -1;
     }
     AUTO_REL_CACHECONN(cache_manager, cache_conn);
@@ -58,6 +60,7 @@ int set_cookie(std::string email, std::string& cookie)
     }
 
     cookie = generate_uuid(); //cookie具有唯一性
+    LOG_INFO << "generate cookie: " << cookie << " for email: " << email;
     std::string ret = cache_conn->SetEx(cookie, 24 * 3600, email); //cookie有效期为24小时
     if (ret != "OK") {
         LOG_ERROR << "set cookie failed, ret: " << ret;

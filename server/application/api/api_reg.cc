@@ -85,7 +85,7 @@ int register_user(string& username ,string& email, string& password, api_error_i
     LOG_INFO << "register_user: salt = " << salt;
     
     /*插入语句*/
-    str_sql = "INSERT INTO USERS (`username`, `email`, `password_hash`, `salt`) VALUES(?, ?, ?, ?)";
+    str_sql = "INSERT INTO `users` (`username`, `email`, `password_hash`, `salt`) VALUES(?, ?, ?, ?)";
     LOG_INFO << "Execute: " << str_sql;
     CDBPrepareStatement *stmt = new CDBPrepareStatement();
     if (stmt->Init(db_conn->GetMysql(), str_sql)) {
