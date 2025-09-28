@@ -227,12 +227,15 @@ server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
  /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/c++/11/any \
  /root/chatroom/server/application/api/api_reg.h \
+ /root/chatroom/server/application/api/api_login.h \
  /root/chatroom/server/application/api/api_common.h \
  /root/chatroom/server/application/api/api_reg.h \
  /root/chatroom/server/muduo/base/Logging.h \
- /root/chatroom/server/muduo/base/LogStream.h /usr/include/c++/11/regex \
- /usr/include/c++/11/bitset /usr/include/c++/11/iterator \
- /usr/include/c++/11/bits/stream_iterator.h /usr/include/c++/11/locale \
+ /root/chatroom/server/muduo/base/LogStream.h \
+ /root/chatroom/server/application/api/api_common.h \
+ /usr/include/c++/11/regex /usr/include/c++/11/bitset \
+ /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
+ /usr/include/c++/11/locale \
  /usr/include/c++/11/bits/locale_facets_nonio.h /usr/include/c++/11/ctime \
  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \

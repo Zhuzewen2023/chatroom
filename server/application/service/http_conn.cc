@@ -1,5 +1,6 @@
 #include "http_conn.h"
 #include "api_reg.h"
+#include "api_login.h"
 #include "api_common.h"
 #include <regex>
 #include <fstream>
@@ -115,9 +116,25 @@ int CHttpConn::_HandleRegisterRequest(std::string& url, std::string& post_data)
 
 int CHttpConn::_HandleLoginRequest(std::string& url, std::string& post_data)
 {
-    //std::string resp_json;
-    //int ret = api_login_user(post_data, resp_json);
-
+    std::string resp_json;
+    int ret = api_login_user(post_data, resp_json);
+    char* http_data = new char[HTTP_RESPONSE_JSON_MAX];
+    int code = 200;
+    std::string code_msg = "No Cotent";
+    if (ret == 0) {
+        snprintf(http_data, HTTP_RESPONSE_JSON_MAX, HTTP_RESPONSE_WITH_COOKIE,
+            code, code_msg.c_str(), resp_json.c_str(), 0, "");
+    } else {
+        code = 400;
+        code_msg = "Bad Request";
+        snprintf(http_data, HTTP_RESPONSE_JSON_MAX, HTTP_RESPONSE_WITH_CODE,
+            code, code_msg.c_str(), resp_json.length(), resp_json.c_str());
+        LOG_INFO << "register failed, ret: " << ret << ", resp_json: " << resp_json;
+    }
+    tcp_conn_->send(http_data);
+    LOG_INFO << "send http data: " << http_data;
+    delete[] http_data;
+    return 0;
 }
 
 int CHttpConn::_HandleHtml(string &url, string &post_data) {

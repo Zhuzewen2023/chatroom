@@ -154,6 +154,30 @@ application/api/api_common.cc.s:
 	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_common.cc.s
 .PHONY : application/api/api_common.cc.s
 
+application/api/api_login.o: application/api/api_login.cc.o
+.PHONY : application/api/api_login.o
+
+# target to build an object file
+application/api/api_login.cc.o:
+	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_login.cc.o
+.PHONY : application/api/api_login.cc.o
+
+application/api/api_login.i: application/api/api_login.cc.i
+.PHONY : application/api/api_login.i
+
+# target to preprocess a source file
+application/api/api_login.cc.i:
+	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_login.cc.i
+.PHONY : application/api/api_login.cc.i
+
+application/api/api_login.s: application/api/api_login.cc.s
+.PHONY : application/api/api_login.s
+
+# target to generate assembly for a file
+application/api/api_login.cc.s:
+	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_login.cc.s
+.PHONY : application/api/api_login.cc.s
+
 application/api/api_reg.o: application/api/api_reg.cc.o
 .PHONY : application/api/api_reg.o
 
@@ -1390,6 +1414,9 @@ help:
 	@echo "... application/api/api_common.o"
 	@echo "... application/api/api_common.i"
 	@echo "... application/api/api_common.s"
+	@echo "... application/api/api_login.o"
+	@echo "... application/api/api_login.i"
+	@echo "... application/api/api_login.s"
 	@echo "... application/api/api_reg.o"
 	@echo "... application/api/api_reg.i"
 	@echo "... application/api/api_reg.s"

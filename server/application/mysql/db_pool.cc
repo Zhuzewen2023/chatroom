@@ -367,7 +367,7 @@ int CDBConn::Init()
     /*初始化一个MYSQL结构体，用于后续所有MySQL操作的“句柄”*/
     mysql_ = mysql_init(NULL);
     if (!mysql_) {
-        LOG_ERROR << "musql_init failed";
+        LOG_ERROR << "mysql_init failed";
         return 1;
     }
     /*mysql_options用于在建立连接前设置MySQL连接的额外选项，
