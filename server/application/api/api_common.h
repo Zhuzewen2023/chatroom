@@ -21,5 +21,8 @@ std::string FormatString(const std::string &format, Args... args)
 std::string RandomString(const int len);
 std::string api_error_id_to_string(api_error_id input);
 int set_cookie(std::string email, std::string& cookie);
+int get_username_and_userid_by_email(std::string& email, std::string& username, int32_t& userid);
+int api_get_user_info_by_cookie(std::string& username, int32_t& userid, std::string& email, std::string cookie);
+
 
 #endif

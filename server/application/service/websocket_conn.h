@@ -9,6 +9,14 @@
 #include "muduo/base/Logging.h" // Logger日志头文件
 #include "api_types.h"
 #include "muduo/base/ThreadPool.h"
+
+#define OPCODE_CONTINUATION_FRAME   0x0
+#define OPCODE_TEXT_FRAME           0x1
+#define OPCODE_BINARY_FRAME         0x2
+#define OPCODE_CONNECTION_CLOSE     0x8
+#define OPCODE_PING                 0x9
+#define OPCODE_PONG                 0xA
+
 class CWebSocketConn: public CHttpConn {
 public:
     CWebSocketConn(const TcpConnectionPtr& conn);
@@ -29,9 +37,10 @@ private:
     int handleClientCreateRoom(Json::Value &root); 
     bool  handshake_completed_ = false; //握手是否完成
     int32_t userid_ = -1;   //
-    string username_;           //用户名
+    std::string username_;           //用户名
+    std::string email_;
 
-     std::unordered_map<string, Room> rooms_map_;    //加入的房间
+    std::unordered_map<string, Room> rooms_map_;    //加入的房间
     std::string incomplete_frame_buffer_; // 用于存储不完整的WebSocket帧数据
 
     uint64_t stats_total_messages_ = 0;

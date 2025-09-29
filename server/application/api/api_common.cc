@@ -1,6 +1,7 @@
 #include "api_common.h"
 #include "api_reg.h"
 #include "cache_pool.h"
+#include "db_pool.h"
 
 #include <uuid/uuid.h>
 #include <vector>
@@ -67,5 +68,54 @@ int set_cookie(std::string email, std::string& cookie)
         return -1;
     }
     return 0;
+}
 
+int get_username_and_userid_by_email(std::string& email, std::string& username, int32_t& userid)
+{
+    int ret = 0;
+    CDBManager *db_manager = CDBManager::getInstance();
+    CDBConn* db_conn = db_manager->GetDBConn("chatroom_slave");
+    AUTO_REL_DBCONN(db_manager, db_conn);
+
+    std::string strsql = FormatString("select id, username from users where email='%s'", email.c_str());
+    CDBResultSet *result_set = db_conn->ExecuteQuery(strsql.c_str());
+    if (result_set && result_set->Next()) {
+        username = result_set->GetString("username");
+        userid = result_set->GetInt("id");
+
+        LOG_INFO << "get username and userid by email from db, username: " << username << ", userid: " << userid;
+        ret = 0;
+    } else {
+        ret = -1;
+    }
+    delete result_set;
+    return ret;
+}
+
+int api_get_user_info_by_cookie(std::string& username, int32_t& userid, 
+    std::string& email, std::string cookie)
+{
+    int ret = 0;
+    CacheManager* cache_manager = CacheManager::getInstance();
+    CacheConn* cache_conn = cache_manager->GetCacheConn("token");
+    AUTO_REL_CACHECONN(cache_manager, cache_conn);
+    if (cache_conn) {
+        email = cache_conn->Get(cookie);
+        LOG_INFO << "get email from cache conn by cookie: " << email << ", cookie: " << cookie;
+        if (email.empty()) {
+            LOG_ERROR << "email not exists";
+            return -1;
+        } else {
+            ret = get_username_and_userid_by_email(email, username, userid);
+            if (ret == 0) {
+                LOG_INFO << "get username and userid by email success";
+                LOG_INFO << "username: " << username;
+                LOG_INFO << "userid: " << userid;
+            }
+        }
+    } else {
+        LOG_ERROR << "api get user info by cookie failed, cannot get cache conn";
+        ret = -1;
+    }
+    return ret;
 }

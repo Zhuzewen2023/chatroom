@@ -255,6 +255,8 @@ server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o: \
  /root/chatroom/server/muduo/base/CountDownLatch.h \
  /root/chatroom/server/application/base/base64.h \
  /root/chatroom/server/application/api/api_common.h \
+ /root/chatroom/server/application/api/api_msg.h \
+ /root/chatroom/server/application/api/api_types.h \
  /root/chatroom/server/application/service/pub_sub_service.h \
  /usr/include/c++/11/mutex /usr/include/c++/11/chrono \
  /usr/include/c++/11/ratio /usr/include/c++/11/limits \

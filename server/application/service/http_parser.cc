@@ -680,7 +680,7 @@ size_t http_parser_execute(http_parser *parser,
       }
     }
 
-  reexecute_byte:
+    reexecute_byte:
     switch (parser->state)
     {
 

@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/root/chatroom/server/application/redis/sds.c" "server/CMakeFiles/chatroom.dir/application/redis/sds.c.o" "gcc" "server/CMakeFiles/chatroom.dir/application/redis/sds.c.o.d"
   "/root/chatroom/server/application/api/api_common.cc" "server/CMakeFiles/chatroom.dir/application/api/api_common.cc.o" "gcc" "server/CMakeFiles/chatroom.dir/application/api/api_common.cc.o.d"
   "/root/chatroom/server/application/api/api_login.cc" "server/CMakeFiles/chatroom.dir/application/api/api_login.cc.o" "gcc" "server/CMakeFiles/chatroom.dir/application/api/api_login.cc.o.d"
+  "/root/chatroom/server/application/api/api_msg.cc" "server/CMakeFiles/chatroom.dir/application/api/api_msg.cc.o" "gcc" "server/CMakeFiles/chatroom.dir/application/api/api_msg.cc.o.d"
   "/root/chatroom/server/application/api/api_reg.cc" "server/CMakeFiles/chatroom.dir/application/api/api_reg.cc.o" "gcc" "server/CMakeFiles/chatroom.dir/application/api/api_reg.cc.o.d"
   "/root/chatroom/server/application/base/base64.cpp" "server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o" "gcc" "server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o.d"
   "/root/chatroom/server/application/base/config_file_reader.cc" "server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o" "gcc" "server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o.d"

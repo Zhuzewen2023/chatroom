@@ -13,6 +13,15 @@ typedef struct _room
     std::string create_time;
     std::string update_time;
     std::string history_last_message_id; //这个房间翻阅历史消息时的位置
+    /*
+    *---------*
+    |         |
+    |         |
+    |         |<-----history_last_message_id
+    | XXXXX   |
+    | XXXXX   |
+    *---------*
+    */
 }Room;
 
 // 定义 Me 结构体
@@ -39,14 +48,14 @@ struct Message
 };
 
 
-struct MessageBatch
+typedef struct MessageBatch
 {
     // The messages in the batch
     std::vector<Message> messages;
 
     // true if there are more messages that could be loaded
     bool has_more{};
-};
+} MessageBatch;
  
 
 #endif

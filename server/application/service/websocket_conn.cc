@@ -2,7 +2,7 @@
 #include <cstring> //std::memcpy
 #include "base64.h"
 #include "api_common.h"
-// #include "api_msg.h"
+#include "api_msg.h"
 #include "pub_sub_service.h"
 // #include "api_room.h"
 #include <thread>
@@ -173,6 +173,7 @@ std::string extractSid(const std::string& input) {
     sid_start += 4; // "sid=" 的长度是 4 
 
     // 查找值的结束位置（假设以空格, &字符串, ;号 为结束）
+    //find_first_of查找第一个出现的、属于 " &;" 这个字符集中的任意一个字符。
     size_t sid_end = input.find_first_of(" &;", sid_start); // Cookie=sid=9c08f796-d33f-11ef-a42b-6363fea3e6a8 & xxx
     if (sid_end == std::string::npos) {
         sid_end = input.length();   // Cookie=sid=9c08f796-d33f-11ef-a42b-6363fea3e6a8
@@ -196,6 +197,91 @@ CWebSocketConn::~CWebSocketConn() {
 
 void CWebSocketConn::OnRead(Buffer* buf)
 {
+    if (!handshake_completed_) {
+        //尚未握手
+        std::string request = buf->retrieveAllAsString();
+        //此处已经判断过Upgrade字段和Connection字段了
+        LOG_INFO << "WebSocket Handshake";
+        LOG_INFO << "request: " << request;
+        size_t key_start = request.find("Sec-WebSocket-Key: ");
+        if (key_start != std::string::npos) {
+            //说明能找到
+            key_start += strlen("Sec-WebSocket-Key: ");
+            size_t key_end = request.find("\r\n", key_start);
+            std::string ws_key = request.substr(key_start, key_end - key_start);
+            LOG_INFO << "Get WebSocket Key: " << ws_key;
+            std::string response = generateWebSocketHandshakeResponse(ws_key);
+            send(response);
+            handshake_completed_ = true;
+            LOG_INFO << "web socket handshake_completed";
+
+            std::string cookie = headers_["Cookie"];
+            LOG_INFO << "Cookie: " << cookie;
+
+            std::string sid;
+            if (!cookie.empty()) {
+                sid = extractSid(cookie);
+            }
+            LOG_INFO << "sid: " << sid;
+
+            //做校验
+            if (cookie.empty() || api_get_user_info_by_cookie(username_, userid_, email_, sid) < 0) {
+                //校验失败
+                std::string reason;
+                if (email_.empty()) {
+                    reason = "cookie validation failed, email is empty";
+                } else {
+                    reason = "cookie validation failed, username not found";
+                }
+                sendCloseFrame(1008, reason);
+            } else {
+                //校验成功
+                //加入ws_user_conn_map
+                {
+                    std::lock_guard<std::mutex> lock(s_mtx_user_ws_conn_map_);
+                    s_user_ws_conn_map.insert({userid_, shared_from_this()});
+                }
+                //订阅房间
+                std::vector<Room> &room_list = GetRoomList();
+                for (int i = 0; i < room_list.size(); i++) {
+                    rooms_map_.insert({room_list[i].room_id, room_list[i]});
+                }
+                sendHelloMessage();
+            }
+        } else {
+            LOG_ERROR << "no Sec-WebSocket-Key";
+        }
+        
+    } else {
+        //发送event_type = "hello"消息给客户端
+        //handshake completed
+        std::string request = buf->retrieveAllAsString();
+        //解析websocket帧
+        WebSocketFrame ws_frame = parseWebSocketFrame(request);
+        LOG_INFO << "websocket handshake completed: " << ws_frame.payload_data;
+        if (frame.opcode == 0x01) {
+            //文本帧
+            LOG_DEBUG << "Process text frame, payload: " << frame.payload_data;
+            bool res;
+            Json::Value root;
+            Json::Reader jsonReader;
+            res = jsonReader.parse(frame.payload_data, root);
+            if (!res) {
+                LOG_WARN << "parse json failed ";
+                return;
+            } else {
+                std::string type;
+                if (root.isObject() && !root["type"].isNull()) {
+                    type = root["type"].asString();
+                    if (type == "clientMessages") {
+                        handleClientMessages(root);
+                    }
+                }
+            }
+        } else if (frame.opcode == 0x08) {
+            LOG_INFO << "Receive close frame, closing connection...";
+        }
+    }
 #if 0
     if (!handshake_completed_) {
         // 客户端 服务端 握手
@@ -379,7 +465,8 @@ void CWebSocketConn::OnRead(Buffer* buf)
 }
 
 // 发送 WebSocket 关闭帧
-void CWebSocketConn::sendCloseFrame(uint16_t code, const std::string reason) {
+void CWebSocketConn::sendCloseFrame(uint16_t code, const std::string reason) 
+{
     if (!tcp_conn_) return;
 
     // 构造关闭帧
@@ -394,6 +481,91 @@ void CWebSocketConn::sendCloseFrame(uint16_t code, const std::string reason) {
 
 int CWebSocketConn::sendHelloMessage()
 {
+    /*
+    {
+        "type" : "hello",
+        "payload" : {
+            "me": {
+                "id": 
+                "username":
+            },
+            "rooms": {
+                "id": 
+                "name":
+                "hasMoreMessages":
+                "messages": [
+                    {
+                        "id":
+                        "content"
+                        "user": {
+                            "id":
+                            "username":
+                        },
+                        "timestamp":
+                    },
+                    {
+
+                    }
+                    ...
+                ]
+            }
+        }
+    }
+    */
+    Json::Value root;
+    root["type"] = "hello";
+    
+    Json::Value payload;
+    Json::Value me;
+    me["id"] = userid_;
+    me["username"] = username_;
+    payload["me"] = me;
+    Json::Value rooms;
+    int it_index = 0;
+    for (auto it = rooms_map_.begin(); it != rooms_map_.end(); ++it) {
+        Room& room_item = it->second;
+        std::string last_message_id;
+        MessageBatch message_batch;
+        api_get_room_history(room_item, message_batch);
+        LOG_INFO << "room: " << room_item.room_name << ", history_last_message_id: " << it->second.history_last_message_id;
+        Json::Value room;
+        room["id"] = room_item.room_id;
+        room["name"] = room_item.room_name;
+        room["hasMoreMessages"] = message_batch.has_more;
+        Json::Value messages;
+        for (int j = 0; j < message_batch.messages.size(); j++) {
+            Json::Value message;
+            Json::Value user;
+            message["id"] = message_batch.messages[j].id;
+            message["content"] = message_batch.messages[j].content;
+            user["id"] = userid_;
+            user["username"] = username_;
+            message["user"] = user;
+            message["timestamp"] = (Json::UInt64)message_batch.messages[j].timestamp;
+            messages[j] = message;
+        }
+        if (message_batch.messages.size() > 0) {
+            room["messages"] = messages;
+        } else {
+            /*如果不这样处理（比如直接不赋值或赋值为默认值），
+            当没有消息时，room["messages"] 可能会被默认解析为 null
+            （JsonCpp 中未赋值的 Json::Value 默认是 null）。
+            这会导致 JSON 结构中该字段的类型在 “数组” 和 “null” 之间波动。*/
+            room["messages"] = Json::arrayValue; /*Json::arrayValue 是一个预定义的静态常量，用于表示一个空的 JSON 数组*/
+        }
+        rooms[it_index] = room;
+        it_index++;
+    }
+
+    root["payload"] = payload;
+
+    Json::FastWriter writer;
+    string str_json = writer.write(root);
+    // 打印 JSON 字符串
+    LOG_INFO << "Serialized JSON: " << str_json;
+    string hello = buildWebSocketFrame(str_json, OPCODE_TEXT_FRAME);
+    send(hello);    //能否直接发送给客户端？
+    return 0;
 #if 0
     // 固定的房间信息在哪里？
     Json::Value root;

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chatroom.dir/application/api/api_common.cc.o.d"
   "CMakeFiles/chatroom.dir/application/api/api_login.cc.o"
   "CMakeFiles/chatroom.dir/application/api/api_login.cc.o.d"
+  "CMakeFiles/chatroom.dir/application/api/api_msg.cc.o"
+  "CMakeFiles/chatroom.dir/application/api/api_msg.cc.o.d"
   "CMakeFiles/chatroom.dir/application/api/api_reg.cc.o"
   "CMakeFiles/chatroom.dir/application/api/api_reg.cc.o.d"
   "CMakeFiles/chatroom.dir/application/base/base64.cpp.o"

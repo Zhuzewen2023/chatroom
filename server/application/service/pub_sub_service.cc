@@ -1,7 +1,31 @@
 #include "pub_sub_service.h"
 
+/*
+typedef struct _room
+{
+    string room_id; //房间id
+    string room_name;//房间名
+    int creator_id;
+    string create_time;
+    string update_time;
+    string history_last_message_id; //这个房间翻阅历史消息时的位置
+}Room;
+*/
 
+static std::vector<Room> s_room_list = {
+    {"0001", "Linux", 1, "", "", ""},
+    {"0002", "Python", 2, "", "", ""},
+    {"0003", "C++", 3, "", "", ""},
+    {"0004", "C", 4, "", "", ""},
+    {"0005", "Golang", 5, "", "", ""}
+};
 
+std::vector<Room> &GetRoomList()
+{
+    return s_room_list;
+}
+
+#if 0
 // static std::vector<Room> s_room_list = {
 //     {"0001", "程序员老廖2", 1, "", "", ""},
 //     {"0002", "码农mark2", 2, "", "", ""},
@@ -42,4 +66,5 @@ int PubSubService::AddRoom(const Room &room) {
      
     return 0;
  }
+ #endif
  

@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <functional>
 
+#if 0
 //房间管理
 class RoomTopic 
 {
@@ -106,8 +107,9 @@ private:
     std::unordered_map<std::string, RoomTopicPtr> room_topic_map_;
     std::mutex room_topic_map_mutex_;
 };
+#endif
 
 //获取固定的房间
-
+std::vector<Room> &GetRoomList();
 
 #endif
