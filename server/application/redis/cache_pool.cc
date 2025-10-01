@@ -922,7 +922,7 @@ bool CacheConn::GetXRevRange(const std::string& key, const std::string& start,
             }
             std::string field = field_reply->str;
             std::string value = value_reply->str;
-            msgs.push_back(std::make_pair(field, value));
+            msgs.push_back(std::make_pair(msg_id, value));
         }
         LOG_INFO << "XREVRANGE: " << key << " msg_id: " << msg_id << ", field_values size: " << msgs.size();
     }

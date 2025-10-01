@@ -22,6 +22,9 @@ int api_get_room_history(Room& room, MessageBatch& msg_batch, const int msg_coun
     bool res = cache_conn->GetXRevRange(room.room_id, stream_ref, "-", msg_count, msgs);
     if (res) {
         for (int i = 0; i < msgs.size(); i++) {
+            // 新增日志：打印原始的first和second
+            LOG_INFO << "msgs[" << i << "].first=" << msgs[i].first 
+             << ", msgs[" << i << "].second=" << msgs[i].second;
             Message msg;
             msg.id = msgs[i].first;
             LOG_INFO << "api_get_room_history: msg id: " << msg.id;

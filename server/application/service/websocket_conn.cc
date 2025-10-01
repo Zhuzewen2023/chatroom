@@ -269,7 +269,7 @@ void CWebSocketConn::OnRead(Buffer* buf)
         LOG_INFO << "websocket handshake completed: " << ws_frame.payload_data;
         if (ws_frame.opcode == 0x01) {
             //文本帧
-            LOG_DEBUG << "Process text frame, payload: " << ws_frame.payload_data;
+            LOG_INFO << "CWebSocketConn::OnRead Process text frame, payload: " << ws_frame.payload_data;
             bool res;
             Json::Value root;
             Json::Reader jsonReader;
@@ -283,6 +283,18 @@ void CWebSocketConn::OnRead(Buffer* buf)
                     type = root["type"].asString();
                     if (type == "clientMessages") {
                         handleClientMessages(root);
+                    } else if (type == "requestRoomHistory") {
+                        /*
+                        {
+                            "type": "requestRoomHistory",
+                            "payload": {
+                                "roomId": "",
+                                "firstMessageId": "",
+                                "count": 
+                            }
+                        }
+                        */
+                        handleRequestRoomHistory(root);
                     }
                 }
             }
@@ -865,6 +877,114 @@ int CWebSocketConn::handleClientMessages(Json::Value &root)
  */
 int CWebSocketConn::handleRequestRoomHistory(Json::Value &root)
 {
+    /*
+    {
+        "type": "requestRoomHistory",
+        "payload": {
+            "roomId": "",
+            "firstMessageId": "",
+            "count": 
+        }
+    }
+    */
+   
+    std::string roomId;
+    if (root["payload"].isNull()) {
+        LOG_ERROR  << "json root \"payload\" is NULL";
+        return -1;
+    }
+    Json::Value payload = root["payload"];
+    if (payload["roomId"].isNull()) {
+        LOG_ERROR << "json payload \"rootId\" is NULL";
+        return -1;
+    }
+    roomId = payload["roomId"].asString();
+    LOG_INFO << "CWebSocketConn handleReuqestRoomHistory get roomId: " << roomId;
+    if (payload["firstMessageId"].isNull()) {
+        LOG_ERROR << "json payload \"firstMessageId\" is NULL";
+        return -1;
+    }
+    std::string firstMessageId = payload["firstMessageId"].asString();
+    LOG_INFO << "CWebSocketConn handleReuqestRoomHistory get firstMessageId: " << firstMessageId;
+    if (payload["count"].isNull()) {
+        LOG_ERROR << "json payload \"count\" is NULL";
+        return -1;
+    }
+    int count = payload["count"].asInt();
+    LOG_INFO << "CWebSocketConn handleReuqestRoomHistory get count: " << count;
+
+    Room& room_ = rooms_map_[roomId];
+    MessageBatch message_batch;
+    room_.history_last_message_id = firstMessageId;
+    int ret = api_get_room_history(room_, message_batch, count);
+    LOG_INFO << "CWebSocketConn::handleRequestRoomHistory room_id:" << roomId << ", history_last_message_id:" << room_.history_last_message_id;
+    //封装消息
+    root = Json::Value(); //重新置空
+    payload = Json::Value();
+    /*
+    {
+        "payload" : {
+            "hasMoreMessages" : true,
+            "id" : "3bb1b0b6-e91c-11ef-ba07-bd8c0260908d",
+            "messages" : [
+                {
+                    "content" : "是否可以",
+                    "id" : "1739363780419-0",
+                    "timestamp" : 1739363780419,
+                    "user" : {
+                    "id" : 9,
+                    "username" : "darren老师"
+                    }
+                },
+                {
+                    "content" : "测试",
+                    "id" : "1739363133438-0",
+                    "timestamp" : 1739363133438,
+                    "user" : {
+                    "id" : 9,
+                    "username" : "darren老师"
+                    }
+                }
+            ],
+            "name" : "音视频课程"
+        },
+        "type" : "serverRoomHistory"
+    }
+
+    */
+    root["type"] = "serverRoomHistory";
+    payload["roomId"] = roomId;
+    payload["name"] = room_.room_name;
+    payload["hasMoreMessages"] = message_batch.has_more;
+
+    Json::Value  messages; 
+    for(int j = 0; j < message_batch.messages.size(); j++) {
+        Json::Value  message;
+        Json::Value user;
+        message["id"] = message_batch.messages[j].id;
+        message["content"] = message_batch.messages[j].content;   
+        user["id"] = (Json::Int64)message_batch.messages[j].user_id;   //这里该获取对应消息的id    
+        user["username"] = message_batch.messages[j].username;  
+        message["user"] = user;
+        message["timestamp"] = (Json::UInt64)message_batch.messages[j].timestamp;
+        messages[j] = message;
+    }
+    if(message_batch.messages.size() > 0)
+        payload["messages"] = messages;
+    else 
+        payload["messages"] = Json::arrayValue;  //不能为NULL，否则前端报异常
+
+    root["payload"] = payload;
+    //json序列化
+    Json::FastWriter writer;
+    string json_str = writer.write(root);
+    string response = buildWebSocketFrame(json_str);
+    
+     //拉取消息只需要发给自己
+    send(response);
+
+    return 0;
+
 #if 0
     // [key] = value  -》 rapidjson
     string roomId = root["payload"]["roomId"].asString();
