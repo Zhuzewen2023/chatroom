@@ -47,7 +47,7 @@ private:
 };
 
 using RoomTopicPtr = std::shared_ptr<RoomTopic>;
-using PubSubCallback = std::function<void(const std::unordered_set<uint32_t>&)>;
+using PubSubCallback = std::function<void(std::unordered_set<uint32_t>&)>;
 
 class PubSubService
 {

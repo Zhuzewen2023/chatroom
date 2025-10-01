@@ -245,7 +245,9 @@ void CWebSocketConn::OnRead(Buffer* buf)
                 std::vector<Room> &room_list = PubSubService::GetRoomList();
                 for (int i = 0; i < room_list.size(); i++) {
                     rooms_map_.insert({room_list[i].room_id, room_list[i]});
+                    PubSubService::GetInstance().AddSubscriber(room_list[i].room_id, userid_);
                 }
+                
                 sendHelloMessage();
             }
         } else {
@@ -691,6 +693,70 @@ int CWebSocketConn::handleClientMessages(Json::Value &root)
     //写入redis
     api_store_message(room_id, msgs);
 
+    //广播给房间内的其他用户
+    /*
+    {
+        "type": "serverMessages",
+        "payload": {
+            "roomId": "",
+            "messages": [
+                {
+                    "id": "",
+                    "content": "",
+                    "user": {
+                        "id": ,
+                        "username": 
+                    },
+                    "timestamp": 
+                }
+            ]
+        }
+    }
+    */
+    root = Json::Value(); //重置root
+    payload = Json::Value();
+    root["type"] = "serverMessages";
+    payload["roomId"] = room_id;
+    Json::Value server_msgs;
+    for(int i = 0; i < msgs.size(); i++) {
+        Json::Value server_msg;
+        Json::Value user;
+        server_msg["id"] = msgs[i].id;
+        server_msg["content"] = msgs[i].content;
+        user["id"] = userid_;
+        user["username"] = username_;
+        server_msg["user"] = user;
+        server_msg["timestamp"] = (Json::UInt64)msgs[i].timestamp;
+        server_msgs[i] = server_msg;
+    }
+    if (msgs.size() > 0) {
+        payload["messages"] = server_msgs;
+    } else {
+        payload["messages"] = Json::arrayValue;
+    }
+    root["payload"] = payload;
+    Json::FastWriter fw;
+    std::string json_str = fw.write(root);
+    LOG_INFO << "encode server message json str: " << json_str;
+    
+    auto callback = [&json_str, &room_id, this](std::unordered_set<uint32_t>& userIds) {
+        LOG_INFO << "callback: userIds.size() = " << userIds.size();
+        for (auto userId: userIds) {
+            CHttpConnPtr ws_conn_ptr = nullptr;
+            {
+                std::lock_guard<std::mutex> lock(s_mtx_user_ws_conn_map_);
+                ws_conn_ptr = s_user_ws_conn_map[userId];
+            }
+            if (ws_conn_ptr) {
+                ws_conn_ptr->send(json_str);
+            } else {
+                LOG_ERROR << "cannot find " << userId << "'s websocket connection";
+            }
+        }
+    };
+
+    PubSubService::GetInstance().PublishMessage(room_id, callback);
+    return 0;
 #if 0
     // 把消息解析出来
     string room_id;
