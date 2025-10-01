@@ -24,6 +24,7 @@ int api_get_room_history(Room& room, MessageBatch& msg_batch, const int msg_coun
         for (int i = 0; i < msgs.size(); i++) {
             Message msg;
             msg.id = msgs[i].first;
+            LOG_INFO << "api_get_room_history: msg id: " << msg.id;
             room.history_last_message_id = msg.id;
             Json::Value root;
             Json::Reader json_reader;
@@ -38,16 +39,25 @@ int api_get_room_history(Room& room, MessageBatch& msg_batch, const int msg_coun
                 return -1;
             }
             msg.content = root["content"].asString();
+            LOG_INFO << "api_get_room_history: msg content: " << msg.content;
             if (root["user_id"].isNull()) {
                 LOG_ERROR << "user_id is null";
                 return -1;
             }
             msg.user_id = root["user_id"].asInt64();
+            LOG_INFO << "api_get_room_history: msg user id: " << msg.user_id;
+            if (root["username"].isNull()) {
+                LOG_ERROR << "username is null";
+                return -1;
+            }
+            msg.username = root["username"].asString();
+            
             if (root["timestamp"].isNull()) {
                 LOG_ERROR << "timestamp is null";
                 return -1;
             }
             msg.timestamp = root["timestamp"].asUInt64();
+            LOG_INFO << "api_get_room_history: msg timestamp: " << msg.timestamp;
             msg_batch.messages.push_back(msg);
         }
         if (msgs.size() < msg_count) {

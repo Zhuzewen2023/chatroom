@@ -236,6 +236,12 @@ void CWebSocketConn::OnRead(Buffer* buf)
                 sendCloseFrame(1008, reason);
             } else {
                 //校验成功
+                LOG_INFO << "CWebSocketConn OnRead verify cookie success";
+                LOG_INFO << "cookie sid=" << sid;
+                LOG_INFO << "email=" << email_;
+                LOG_INFO << "userid=" << userid_;
+                LOG_INFO << "username_=" << username_;
+
                 //加入ws_user_conn_map
                 {
                     std::lock_guard<std::mutex> lock(s_mtx_user_ws_conn_map_);
@@ -491,26 +497,30 @@ int CWebSocketConn::sendHelloMessage()
                 "id": 
                 "username":
             },
-            "rooms": {
-                "id": 
-                "name":
-                "hasMoreMessages":
-                "messages": [
-                    {
-                        "id":
-                        "content"
-                        "user": {
+            "rooms": [
+                {
+                    "id": 
+                    "name":
+                    "hasMoreMessages":
+                    "messages": [
+                        {
                             "id":
-                            "username":
+                            "content"
+                            "user": {
+                                "id":
+                                "username":
+                            },
+                            "timestamp":
                         },
-                        "timestamp":
-                    },
-                    {
+                        {
 
-                    }
-                    ...
-                ]
-            }
+                        }
+                        ...
+                    ]
+                },
+                {
+                }
+            ]
         }
     }
     */
@@ -540,8 +550,9 @@ int CWebSocketConn::sendHelloMessage()
             Json::Value user;
             message["id"] = message_batch.messages[j].id;
             message["content"] = message_batch.messages[j].content;
-            user["id"] = userid_;
-            user["username"] = username_;
+            user["id"] = (Json::Int64)message_batch.messages[j].user_id;
+            LOG_INFO << "CWebSocketConn::sendHelloMessages: message_batch.messages[j].username= " << message_batch.messages[j].username;
+            user["username"] = message_batch.messages[j].username;
             message["user"] = user;
             message["timestamp"] = (Json::UInt64)message_batch.messages[j].timestamp;
             messages[j] = message;
@@ -558,7 +569,7 @@ int CWebSocketConn::sendHelloMessage()
         rooms[it_index] = room;
         it_index++;
     }
-
+    payload["rooms"] = rooms;
     root["payload"] = payload;
 
     Json::FastWriter writer;
@@ -723,8 +734,8 @@ int CWebSocketConn::handleClientMessages(Json::Value &root)
         Json::Value user;
         server_msg["id"] = msgs[i].id;
         server_msg["content"] = msgs[i].content;
-        user["id"] = userid_;
-        user["username"] = username_;
+        user["id"] = msgs[i].user_id;
+        user["username"] = msgs[i].username;
         server_msg["user"] = user;
         server_msg["timestamp"] = (Json::UInt64)msgs[i].timestamp;
         server_msgs[i] = server_msg;
@@ -738,8 +749,8 @@ int CWebSocketConn::handleClientMessages(Json::Value &root)
     Json::FastWriter fw;
     std::string json_str = fw.write(root);
     LOG_INFO << "encode server message json str: " << json_str;
-    
-    auto callback = [&json_str, &room_id, this](std::unordered_set<uint32_t>& userIds) {
+    std::string response = buildWebSocketFrame(json_str);
+    auto callback = [&response, &room_id, this](std::unordered_set<uint32_t>& userIds) {
         LOG_INFO << "callback: userIds.size() = " << userIds.size();
         for (auto userId: userIds) {
             CHttpConnPtr ws_conn_ptr = nullptr;
@@ -748,7 +759,8 @@ int CWebSocketConn::handleClientMessages(Json::Value &root)
                 ws_conn_ptr = s_user_ws_conn_map[userId];
             }
             if (ws_conn_ptr) {
-                ws_conn_ptr->send(json_str);
+                LOG_INFO << "ws_conn_ptr send " << response;
+                ws_conn_ptr->send(response);
             } else {
                 LOG_ERROR << "cannot find " << userId << "'s websocket connection";
             }
