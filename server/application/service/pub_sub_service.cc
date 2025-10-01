@@ -20,8 +20,11 @@ static std::vector<Room> s_room_list = {
     {"0005", "Golang", 5, "", "", ""}
 };
 
-std::vector<Room> &GetRoomList()
+static std::mutex s_room_list_mutex_;
+
+std::vector<Room>& PubSubService::GetRoomList()
 {
+    std::lock_guard<std::mutex> lock(s_room_list_mutex_);
     return s_room_list;
 }
 

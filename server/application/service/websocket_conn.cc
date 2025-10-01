@@ -242,7 +242,7 @@ void CWebSocketConn::OnRead(Buffer* buf)
                     s_user_ws_conn_map.insert({userid_, shared_from_this()});
                 }
                 //订阅房间
-                std::vector<Room> &room_list = GetRoomList();
+                std::vector<Room> &room_list = PubSubService::GetRoomList();
                 for (int i = 0; i < room_list.size(); i++) {
                     rooms_map_.insert({room_list[i].room_id, room_list[i]});
                 }
@@ -259,13 +259,13 @@ void CWebSocketConn::OnRead(Buffer* buf)
         //解析websocket帧
         WebSocketFrame ws_frame = parseWebSocketFrame(request);
         LOG_INFO << "websocket handshake completed: " << ws_frame.payload_data;
-        if (frame.opcode == 0x01) {
+        if (ws_frame.opcode == 0x01) {
             //文本帧
-            LOG_DEBUG << "Process text frame, payload: " << frame.payload_data;
+            LOG_DEBUG << "Process text frame, payload: " << ws_frame.payload_data;
             bool res;
             Json::Value root;
             Json::Reader jsonReader;
-            res = jsonReader.parse(frame.payload_data, root);
+            res = jsonReader.parse(ws_frame.payload_data, root);
             if (!res) {
                 LOG_WARN << "parse json failed ";
                 return;
@@ -278,7 +278,7 @@ void CWebSocketConn::OnRead(Buffer* buf)
                     }
                 }
             }
-        } else if (frame.opcode == 0x08) {
+        } else if (ws_frame.opcode == 0x08) {
             LOG_INFO << "Receive close frame, closing connection...";
         }
     }
@@ -649,6 +649,48 @@ uint64_t getCurrentTimestamp() {
  */
 int CWebSocketConn::handleClientMessages(Json::Value &root)
 {
+    /*
+        "type": "clientMessages",
+        "payload": {
+            "roomId": "",
+            "messages": [
+                {
+                    "content": ""
+                }
+            ]
+        }
+    */
+    std::string room_id;
+    if(root["payload"].isNull()) {
+        LOG_ERROR << "handleClientMessages failed, payload is NULL";
+        return -1;
+    }
+    Json::Value payload = root["payload"];
+    if(payload["roomId"].isNull()) {
+        LOG_ERROR << "handleClientMessages failed, roomId is NULL";
+        return -1;
+    }
+    room_id = payload["roomId"].asString();
+    if(payload["messages"].isNull()) {
+        LOG_ERROR << "handleClientMessages failed, messages is NULL";
+        return -1;
+    }
+    Json::Value arrayObj = payload["messages"];
+    std::vector<Message> msgs;  
+    uint64_t timestamp = getCurrentTimestamp();
+    for (int i = 0; i < arrayObj.size(); i++) {
+        Json::Value message = arrayObj[i];
+        Message msg;
+        msg.content = message["content"].asString();
+        msg.timestamp = timestamp;
+        msg.user_id = userid_;
+        msg.username = username_;
+        msgs.push_back(msg);
+    }
+
+    //写入redis
+    api_store_message(room_id, msgs);
+
 #if 0
     // 把消息解析出来
     string room_id;

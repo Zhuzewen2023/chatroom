@@ -924,11 +924,24 @@ bool CacheConn::GetXRevRange(const std::string& key, const std::string& start,
             std::string value = value_reply->str;
             msgs.push_back(std::make_pair(field, value));
         }
-        LOG_DEBUG << "XREVRANGE: " << key << " msg_id: " << msg_id << ", field_values size: " << msgs.size();
+        LOG_INFO << "XREVRANGE: " << key << " msg_id: " << msg_id << ", field_values size: " << msgs.size();
     }
     freeReplyObject(reply);
     return true;
 
+}
+
+// 辅助函数：转义字符串中的双引号（将"替换为\"）
+std::string escape_double_quotes(const std::string& s) {
+    std::string res;
+    for (char c : s) {
+        if (c == '"') {
+            res += "\\\"";  // 转义双引号为\"
+        } else {
+            res += c;
+        }
+    }
+    return res;
 }
 
 bool CacheConn::XAdd(const std::string& key, std::string& id, const std::vector<std::pair<std::string, std::string>>& field_values)
@@ -936,29 +949,101 @@ bool CacheConn::XAdd(const std::string& key, std::string& id, const std::vector<
     if (!Init()) {
         return false;
     }
-    std::string command = "XADD " + key + " " + id + " ";
-    for (const auto& fv : field_values) {
-        command += fv.first + " " + fv.second + " ";
+
+        // 1. 构建参数列表：XADD 命令的每个部分作为独立参数
+    std::vector<const char*> args;  // 参数指针数组
+    std::vector<size_t> arg_lengths;  // 每个参数的长度（精确控制，避免解析歧义）
+
+    // 添加固定参数：XADD、key、id（*）
+    args.push_back("XADD");
+    arg_lengths.push_back(strlen("XADD"));
+
+    args.push_back(key.c_str());
+    arg_lengths.push_back(key.length());
+
+    args.push_back(id.c_str());  // id 是 "*"
+    arg_lengths.push_back(id.length());
+
+    // 2. 添加所有 field-value 键值对（每个 field 和 value 都是独立参数）
+    for (const auto& pair : field_values) {
+        // 添加 field
+        args.push_back(pair.first.c_str());
+        arg_lengths.push_back(pair.first.length());
+
+        // 添加 value（无需手动加引号和转义，Redis 会自动处理）
+        args.push_back(pair.second.c_str());
+        arg_lengths.push_back(pair.second.length());
     }
-    LOG_DEBUG << "command: " << command;
-    redisReply* reply = (redisReply*)redisCommand(context_, command.c_str());
+
+    // 3. 执行命令（使用 redisCommandArgv 传递参数数组）
+    redisReply* reply = (redisReply*)redisCommandArgv(
+        context_,
+        args.size(),          // 参数总个数
+        args.data(),          // 参数指针数组
+        arg_lengths.data()    // 参数长度数组（关键：精确指定每个参数的长度）
+    );
+
+    // 4. 处理命令结果
     if (!reply) {
-        LOG_ERROR << "redisCommand failed: " << context_->errstr;
+        LOG_ERROR << "redisCommandArgv failed: " << context_->errstr;
         redisFree(context_);
-        context_ = NULL;
+        context_ = nullptr;
         return false;
     }
-    if (reply->type != REDIS_REPLY_STRING) {
-        LOG_ERROR << "XADD: " << key << " Error: " << reply->str << ", " << context_->errstr
-                  << ", reply->integer: " << reply->integer << ", type: " << reply->type;
+
+    if (reply->type == REDIS_REPLY_ERROR) {
+        LOG_ERROR << "XADD Error: " << reply->str;
         freeReplyObject(reply);
         return false;
     }
+
+    if (reply->type != REDIS_REPLY_STRING) {
+        LOG_ERROR << "XADD unexpected reply type: " << reply->type;
+        freeReplyObject(reply);
+        return false;
+    }
+
+    // 成功：获取 Redis 生成的消息 ID
     id = reply->str;
-    LOG_DEBUG << "XADD: " << key << " id: " << id;
+    LOG_INFO << "XADD success, id: " << id;
     freeReplyObject(reply);
     return true;
+#if 0
+    // // 在 XAdd 函数中临时替换命令，执行极简测试
+    // std::string test_command = "XADD 0001 * test_field test_value";  // 极简命令
+    // LOG_INFO << "test command: " << test_command;
+        // 构建 XADD 命令
+    std::string  command = "XADD " + key + " " + id + " ";
+
+    // 添加字段-值对
+    for (const auto& pair : field_values) {
+        std::string str = escape_double_quotes(pair.second);
+        command += pair.first + " \"" + str + "\" ";
+    }
+    LOG_INFO << "command: " << command;
+    // 发送命令
+    redisReply* reply = (redisReply*)redisCommand(context_, command.c_str());
+    if (!reply) {
+        std::cerr << "Failed to execute XADD command" << std::endl;
+        return false;
+    }
+
+    // 检查回复类型
+    if (reply->type == REDIS_REPLY_ERROR) {
+        std::cerr << "Error: " << reply->str << std::endl;
+        freeReplyObject(reply);
+        return false;
+    }
+
+    // 打印成功消息
+    // std::cout << "Message added with ID: " << reply->str << std::endl;
+    id = reply->str;
+    // 释放回复对象
+    freeReplyObject(reply);
+    return true;
+#endif
 }
+    
 
 bool CacheConn::FlushDb()
 {

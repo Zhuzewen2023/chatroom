@@ -9,6 +9,124 @@
 #include <unordered_set>
 #include <functional>
 
+class RoomTopic
+{
+public:
+    RoomTopic(const std::string& room_id, const std::string& room_topic, uint32_t creator_id) 
+    {
+        room_id_ = room_id;
+        room_topic_ = room_topic;
+        creator_id_ = creator_id;
+    }
+
+    ~RoomTopic() 
+    {
+        user_ids_.clear();
+    }
+
+    void AddSubscriber(uint32_t userid)
+    {
+        user_ids_.insert(userid);
+    }
+
+    void DeleteSubscriber(uint32_t userid)
+    {
+        user_ids_.erase(userid);
+    }
+
+    std::unordered_set<uint32_t>& GetSubscribers()
+    {
+        return user_ids_;
+    }
+
+private:
+    std::string room_id_;
+    std::string room_topic_;
+    int creator_id_;
+    std::unordered_set<uint32_t> user_ids_;
+};
+
+using RoomTopicPtr = std::shared_ptr<RoomTopic>;
+using PubSubCallback = std::function<void(const std::unordered_set<uint32_t>&)>;
+
+class PubSubService
+{
+public:
+    static PubSubService& GetInstance()
+    {
+        static PubSubService instance;
+        return instance;
+    }
+
+    PubSubService() {}
+    ~PubSubService() {}
+
+    bool AddRoomTopic(const std::string& room_id, const std::string& room_topic, int creator_id)
+    {
+        std::lock_guard<std::mutex> lock(room_topic_map_mutex_);
+        if (room_topic_map_.find(room_id) != room_topic_map_.end()) {
+            LOG_ERROR << "room " << room_id << " already exists";
+            return false;
+        }
+        RoomTopicPtr room_topic_ptr = std::make_shared<RoomTopic>(room_id, room_topic, creator_id);
+        room_topic_map_[room_id] = room_topic_ptr;
+        return true;
+    }
+
+    void DeleteRoomTopic(const std::string& room_id)
+    {
+        std::lock_guard<std::mutex> lock(room_topic_map_mutex_);
+        if (room_topic_map_.find(room_id) == room_topic_map_.end()) {
+            LOG_ERROR << "cannot find room_id, delete room topic failed";
+            return;
+        }
+        room_topic_map_.erase(room_id);
+    }
+
+    bool AddSubscriber(const std::string& room_id, int userid)
+    {
+        std::lock_guard<std::mutex> lock(room_topic_map_mutex_);
+        if (room_topic_map_.find(room_id) == room_topic_map_.end()) {
+            LOG_ERROR << "cannot find room_id, add subscriber failed";
+            return true;
+        }
+        RoomTopicPtr room_topic_ptr = room_topic_map_[room_id];
+        room_topic_ptr->AddSubscriber(userid);
+        return true;
+    }
+
+    void DeleteSubscriber(const std::string& room_id, int userid)
+    {
+        std::lock_guard<std::mutex> lock(room_topic_map_mutex_);
+        if (room_topic_map_.find(room_id) == room_topic_map_.end()) {
+            LOG_ERROR << "cannot find room_id, delete subscriber failed";
+            return;
+        }
+        RoomTopicPtr room_topic_ptr = room_topic_map_[room_id];
+        room_topic_ptr->DeleteSubscriber(userid);
+        
+    }
+
+    void PublishMessage(const std::string& room_id, PubSubCallback callback)
+    {
+        std::unordered_set<uint32_t> user_ids;
+        {
+            std::lock_guard<std::mutex> lock(room_topic_map_mutex_);
+            if (room_topic_map_.find(room_id) == room_topic_map_.end()) {
+                LOG_ERROR << "publish message failed, no room_id";
+                return;
+            }
+            user_ids = room_topic_map_[room_id]->GetSubscribers();
+        }
+        callback(user_ids);
+    }
+    //获取固定的房间
+    static std::vector<Room> &GetRoomList();
+
+private:
+    std::unordered_map<std::string, RoomTopicPtr> room_topic_map_;
+    std::mutex room_topic_map_mutex_;
+};
 #if 0
 //房间管理
 class RoomTopic 
@@ -109,7 +227,6 @@ private:
 };
 #endif
 
-//获取固定的房间
-std::vector<Room> &GetRoomList();
+
 
 #endif

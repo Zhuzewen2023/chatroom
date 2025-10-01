@@ -134,6 +134,17 @@ private:
 //     return 0;
 // }
 
+int load_room_list()
+{
+    PubSubService& pubSubService = PubSubService::GetInstance();
+    std::vector<Room> &room_list = PubSubService::GetRoomList();
+    for (const auto& room : room_list) {
+        pubSubService.AddRoomTopic(room.room_id, room.room_name, 1);
+        LOG_INFO << "Added room to PubSubService: " << room.room_id << " - " << room.room_name;
+    }
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     std::cout  << argv[0] << " [conf ] "<< std::endl;
@@ -174,6 +185,8 @@ int main(int argc, char *argv[])
         LOG_ERROR <<"DBManager init failed";
         return -1;
     }
+
+    load_room_list();
 
     const char *http_bind_ip = "0.0.0.0";
     char *str_num_event_loops = config_file.GetConfigValue("num_event_loops");  

@@ -641,17 +641,37 @@ bool CDBManager::Init()
             LOG_ERROR << "Init DB Instance " << pool_name << " failed, GetDBConn failed";
             return false;
         }
-        std::string sql_content = ReadSqlFile("../../z2w_chatroom.sql");
-        LOG_INFO << "sql_content: " << sql_content;
-        std::vector<std::string> sql_statements = SplitSqlStatements(sql_content);
-        for (const auto& statement : sql_statements) {
-            if (statement.empty()) {
-                continue; // 跳过空语句
-            }
-            if (!conn->ExecuteCreate(statement.c_str())) {
-                LOG_ERROR << "ExecuteCreate failed for statement: " << statement;
-                RelDBConn(conn);
-                return false;
+        std::string check_sql = "SHOW DATABASES LIKE 'z2w_chatroom'";
+        CDBResultSet* res = conn->ExecuteQuery(check_sql.c_str());
+        if (res == nullptr) {
+            LOG_ERROR << "execute query: " << check_sql << " failed";
+            RelDBConn(conn);
+            return false;
+        }
+        bool db_exists = false;
+        if (res->Next()) {
+            db_exists = true;
+            LOG_INFO << "database z2w_chatroom exists";
+        } else {
+            db_exists = false;
+            LOG_INFO << "database z2w_chatroom not exists";
+        }
+        delete res;
+        res = nullptr;
+
+        if (!db_exists) {
+            std::string sql_content = ReadSqlFile("../../z2w_chatroom.sql");
+            LOG_INFO << "sql_content: " << sql_content;
+            std::vector<std::string> sql_statements = SplitSqlStatements(sql_content);
+            for (const auto& statement : sql_statements) {
+                if (statement.empty()) {
+                    continue; // 跳过空语句
+                }
+                if (!conn->ExecuteCreate(statement.c_str())) {
+                    LOG_ERROR << "ExecuteCreate failed for statement: " << statement;
+                    RelDBConn(conn);
+                    return false;
+                }
             }
         }
         LOG_INFO << "Initialized DB Data " << pool_name << " successfully";
