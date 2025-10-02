@@ -300,6 +300,7 @@ void CWebSocketConn::OnRead(Buffer* buf)
             }
         } else if (ws_frame.opcode == 0x08) {
             LOG_INFO << "Receive close frame, closing connection...";
+            disconnect();
         }
     }
 #if 0

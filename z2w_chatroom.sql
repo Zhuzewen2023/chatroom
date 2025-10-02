@@ -12,5 +12,12 @@ CREATE TABLE IF NOT EXISTS `users` (
     UNIQUE (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
+CREATE TABLE IF NOT EXISTS `room_info` (
+    `room_id` VARCHAR(64) NOT NULL PRIMARY KEY,
+    `room_name` VARCHAR(255) NOT NULL,
+    `creator_id` BIGINT NOT NULL,
+    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_creator (`creator_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

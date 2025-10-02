@@ -20,7 +20,7 @@ CDBResultSet::CDBResultSet(MYSQL_RES *res)
 
     for (int i = 0; i < num_fields; i++) {
         key_map_.insert(make_pair(fields[i].name, i));
-        LOG_DEBUG << "CDBResultSet: num_fields = " << num_fields << " fields[" << i << "].name: " << fields[i].name;
+        LOG_INFO << "CDBResultSet: num_fields = " << num_fields << " fields[" << i << "].name: " << fields[i].name;
 
     }
 }
@@ -649,9 +649,37 @@ bool CDBManager::Init()
             return false;
         }
         bool db_exists = false;
+        bool users_table_exists = false;
+        bool room_info_table_exists = false;
+
         if (res->Next()) {
             db_exists = true;
             LOG_INFO << "database z2w_chatroom exists";
+            check_sql = "SHOW TABLES IN `z2w_chatroom`";
+            delete res;
+            res = conn->ExecuteQuery(check_sql.c_str());
+            if (res == nullptr) {
+                LOG_ERROR << "execute query: " << check_sql << " failed";
+                RelDBConn(conn);
+                return false;
+            }
+            while (res->Next()) {
+                std::string table_name = res->GetString("Tables_in_z2w_chatroom");
+                LOG_INFO << "CDBManager::Init() get table name: " << table_name;
+                if (table_name == "users") {
+                    users_table_exists = true;
+                } else if (table_name == "room_info") {
+                    room_info_table_exists = true;
+                }
+                
+                // 如果两个表都找到了，可以提前退出循环
+                if (users_table_exists && room_info_table_exists) {
+                    break;
+                }
+            }
+            // 输出检查结果
+            LOG_INFO << "users table exists: " << (users_table_exists ? "yes" : "no");
+            LOG_INFO << "room_info table exists: " << (room_info_table_exists ? "yes" : "no");
         } else {
             db_exists = false;
             LOG_INFO << "database z2w_chatroom not exists";
@@ -659,7 +687,7 @@ bool CDBManager::Init()
         delete res;
         res = nullptr;
 
-        if (!db_exists) {
+        if (!db_exists || !users_table_exists || !room_info_table_exists) {
             std::string sql_content = ReadSqlFile("../../z2w_chatroom.sql");
             LOG_INFO << "sql_content: " << sql_content;
             std::vector<std::string> sql_statements = SplitSqlStatements(sql_content);
