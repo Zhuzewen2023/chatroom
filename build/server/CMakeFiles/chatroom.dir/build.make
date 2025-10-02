@@ -139,10 +139,24 @@ server/CMakeFiles/chatroom.dir/application/api/api_reg.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/chatroom.dir/application/api/api_reg.cc.s"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/chatroom/server/application/api/api_reg.cc -o CMakeFiles/chatroom.dir/application/api/api_reg.cc.s
 
+server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o: server/CMakeFiles/chatroom.dir/flags.make
+server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o: ../server/application/api/api_room.cc
+server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o"
+	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o -MF CMakeFiles/chatroom.dir/application/api/api_room.cc.o.d -o CMakeFiles/chatroom.dir/application/api/api_room.cc.o -c /root/chatroom/server/application/api/api_room.cc
+
+server/CMakeFiles/chatroom.dir/application/api/api_room.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/chatroom.dir/application/api/api_room.cc.i"
+	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/chatroom/server/application/api/api_room.cc > CMakeFiles/chatroom.dir/application/api/api_room.cc.i
+
+server/CMakeFiles/chatroom.dir/application/api/api_room.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/chatroom.dir/application/api/api_room.cc.s"
+	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/chatroom/server/application/api/api_room.cc -o CMakeFiles/chatroom.dir/application/api/api_room.cc.s
+
 server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o: ../server/application/base/base64.cpp
 server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o -MF CMakeFiles/chatroom.dir/application/base/base64.cpp.o.d -o CMakeFiles/chatroom.dir/application/base/base64.cpp.o -c /root/chatroom/server/application/base/base64.cpp
 
 server/CMakeFiles/chatroom.dir/application/base/base64.cpp.i: cmake_force
@@ -156,7 +170,7 @@ server/CMakeFiles/chatroom.dir/application/base/base64.cpp.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o: ../server/application/base/config_file_reader.cc
 server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o -MF CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o.d -o CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o -c /root/chatroom/server/application/base/config_file_reader.cc
 
 server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.i: cmake_force
@@ -170,7 +184,7 @@ server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.s: cmake_f
 server/CMakeFiles/chatroom.dir/application/base/util.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/base/util.cc.o: ../server/application/base/util.cc
 server/CMakeFiles/chatroom.dir/application/base/util.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object server/CMakeFiles/chatroom.dir/application/base/util.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object server/CMakeFiles/chatroom.dir/application/base/util.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/base/util.cc.o -MF CMakeFiles/chatroom.dir/application/base/util.cc.o.d -o CMakeFiles/chatroom.dir/application/base/util.cc.o -c /root/chatroom/server/application/base/util.cc
 
 server/CMakeFiles/chatroom.dir/application/base/util.cc.i: cmake_force
@@ -184,7 +198,7 @@ server/CMakeFiles/chatroom.dir/application/base/util.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o: ../server/application/mysql/db_pool.cc
 server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o -MF CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o.d -o CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.o -c /root/chatroom/server/application/mysql/db_pool.cc
 
 server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.i: cmake_force
@@ -198,7 +212,7 @@ server/CMakeFiles/chatroom.dir/application/mysql/db_pool.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o: ../server/application/service/http_conn.cc
 server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.o -MF CMakeFiles/chatroom.dir/application/service/http_conn.cc.o.d -o CMakeFiles/chatroom.dir/application/service/http_conn.cc.o -c /root/chatroom/server/application/service/http_conn.cc
 
 server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.i: cmake_force
@@ -212,7 +226,7 @@ server/CMakeFiles/chatroom.dir/application/service/http_conn.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.o: ../server/application/service/http_parser.cc
 server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.o -MF CMakeFiles/chatroom.dir/application/service/http_parser.cc.o.d -o CMakeFiles/chatroom.dir/application/service/http_parser.cc.o -c /root/chatroom/server/application/service/http_parser.cc
 
 server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.i: cmake_force
@@ -226,7 +240,7 @@ server/CMakeFiles/chatroom.dir/application/service/http_parser.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o: ../server/application/service/http_parser_wrapper.cc
 server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o -MF CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o.d -o CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.o -c /root/chatroom/server/application/service/http_parser_wrapper.cc
 
 server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.i: cmake_force
@@ -240,7 +254,7 @@ server/CMakeFiles/chatroom.dir/application/service/http_parser_wrapper.cc.s: cma
 server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o: ../server/application/service/pub_sub_service.cc
 server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o -MF CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o.d -o CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.o -c /root/chatroom/server/application/service/pub_sub_service.cc
 
 server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.i: cmake_force
@@ -254,7 +268,7 @@ server/CMakeFiles/chatroom.dir/application/service/pub_sub_service.cc.s: cmake_f
 server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o: ../server/application/service/websocket_conn.cc
 server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o -MF CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o.d -o CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.o -c /root/chatroom/server/application/service/websocket_conn.cc
 
 server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.i: cmake_force
@@ -268,7 +282,7 @@ server/CMakeFiles/chatroom.dir/application/service/websocket_conn.cc.s: cmake_fo
 server/CMakeFiles/chatroom.dir/application/redis/async.c.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/async.c.o: ../server/application/redis/async.c
 server/CMakeFiles/chatroom.dir/application/redis/async.c.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object server/CMakeFiles/chatroom.dir/application/redis/async.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object server/CMakeFiles/chatroom.dir/application/redis/async.c.o"
 	cd /root/chatroom/build/server && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/async.c.o -MF CMakeFiles/chatroom.dir/application/redis/async.c.o.d -o CMakeFiles/chatroom.dir/application/redis/async.c.o -c /root/chatroom/server/application/redis/async.c
 
 server/CMakeFiles/chatroom.dir/application/redis/async.c.i: cmake_force
@@ -282,7 +296,7 @@ server/CMakeFiles/chatroom.dir/application/redis/async.c.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o: ../server/application/redis/cache_pool.cc
 server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o -MF CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o.d -o CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.o -c /root/chatroom/server/application/redis/cache_pool.cc
 
 server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.i: cmake_force
@@ -296,7 +310,7 @@ server/CMakeFiles/chatroom.dir/application/redis/cache_pool.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/redis/dict.c.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/dict.c.o: ../server/application/redis/dict.c
 server/CMakeFiles/chatroom.dir/application/redis/dict.c.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object server/CMakeFiles/chatroom.dir/application/redis/dict.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object server/CMakeFiles/chatroom.dir/application/redis/dict.c.o"
 	cd /root/chatroom/build/server && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/dict.c.o -MF CMakeFiles/chatroom.dir/application/redis/dict.c.o.d -o CMakeFiles/chatroom.dir/application/redis/dict.c.o -c /root/chatroom/server/application/redis/dict.c
 
 server/CMakeFiles/chatroom.dir/application/redis/dict.c.i: cmake_force
@@ -310,7 +324,7 @@ server/CMakeFiles/chatroom.dir/application/redis/dict.c.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.o: ../server/application/redis/hiredis.c
 server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.o"
 	cd /root/chatroom/build/server && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.o -MF CMakeFiles/chatroom.dir/application/redis/hiredis.c.o.d -o CMakeFiles/chatroom.dir/application/redis/hiredis.c.o -c /root/chatroom/server/application/redis/hiredis.c
 
 server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.i: cmake_force
@@ -324,7 +338,7 @@ server/CMakeFiles/chatroom.dir/application/redis/hiredis.c.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/redis/net.c.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/net.c.o: ../server/application/redis/net.c
 server/CMakeFiles/chatroom.dir/application/redis/net.c.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object server/CMakeFiles/chatroom.dir/application/redis/net.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object server/CMakeFiles/chatroom.dir/application/redis/net.c.o"
 	cd /root/chatroom/build/server && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/net.c.o -MF CMakeFiles/chatroom.dir/application/redis/net.c.o.d -o CMakeFiles/chatroom.dir/application/redis/net.c.o -c /root/chatroom/server/application/redis/net.c
 
 server/CMakeFiles/chatroom.dir/application/redis/net.c.i: cmake_force
@@ -338,7 +352,7 @@ server/CMakeFiles/chatroom.dir/application/redis/net.c.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/redis/read.c.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/read.c.o: ../server/application/redis/read.c
 server/CMakeFiles/chatroom.dir/application/redis/read.c.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object server/CMakeFiles/chatroom.dir/application/redis/read.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object server/CMakeFiles/chatroom.dir/application/redis/read.c.o"
 	cd /root/chatroom/build/server && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/read.c.o -MF CMakeFiles/chatroom.dir/application/redis/read.c.o.d -o CMakeFiles/chatroom.dir/application/redis/read.c.o -c /root/chatroom/server/application/redis/read.c
 
 server/CMakeFiles/chatroom.dir/application/redis/read.c.i: cmake_force
@@ -352,7 +366,7 @@ server/CMakeFiles/chatroom.dir/application/redis/read.c.s: cmake_force
 server/CMakeFiles/chatroom.dir/application/redis/sds.c.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/application/redis/sds.c.o: ../server/application/redis/sds.c
 server/CMakeFiles/chatroom.dir/application/redis/sds.c.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object server/CMakeFiles/chatroom.dir/application/redis/sds.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object server/CMakeFiles/chatroom.dir/application/redis/sds.c.o"
 	cd /root/chatroom/build/server && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/application/redis/sds.c.o -MF CMakeFiles/chatroom.dir/application/redis/sds.c.o.d -o CMakeFiles/chatroom.dir/application/redis/sds.c.o -c /root/chatroom/server/application/redis/sds.c
 
 server/CMakeFiles/chatroom.dir/application/redis/sds.c.i: cmake_force
@@ -366,7 +380,7 @@ server/CMakeFiles/chatroom.dir/application/redis/sds.c.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o: ../server/muduo/base/AsyncLogging.cc
 server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.o -c /root/chatroom/server/muduo/base/AsyncLogging.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.i: cmake_force
@@ -380,7 +394,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/AsyncLogging.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o: ../server/muduo/base/Condition.cc
 server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/Condition.cc.o -c /root/chatroom/server/muduo/base/Condition.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.i: cmake_force
@@ -394,7 +408,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/Condition.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o: ../server/muduo/base/CountDownLatch.cc
 server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.o -c /root/chatroom/server/muduo/base/CountDownLatch.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.i: cmake_force
@@ -408,7 +422,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/CountDownLatch.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o: ../server/muduo/base/CurrentThread.cc
 server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.o -c /root/chatroom/server/muduo/base/CurrentThread.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.i: cmake_force
@@ -422,7 +436,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/CurrentThread.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.o: ../server/muduo/base/Date.cc
 server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/Date.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/Date.cc.o -c /root/chatroom/server/muduo/base/Date.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.i: cmake_force
@@ -436,7 +450,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/Date.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o: ../server/muduo/base/Exception.cc
 server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/Exception.cc.o -c /root/chatroom/server/muduo/base/Exception.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.i: cmake_force
@@ -450,7 +464,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/Exception.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o: ../server/muduo/base/FileUtil.cc
 server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.o -c /root/chatroom/server/muduo/base/FileUtil.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.i: cmake_force
@@ -464,7 +478,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/FileUtil.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o: ../server/muduo/base/LogFile.cc
 server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.o -c /root/chatroom/server/muduo/base/LogFile.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.i: cmake_force
@@ -478,7 +492,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/LogFile.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o: ../server/muduo/base/LogStream.cc
 server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.o -c /root/chatroom/server/muduo/base/LogStream.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.i: cmake_force
@@ -492,7 +506,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/LogStream.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o: ../server/muduo/base/Logging.cc
 server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/Logging.cc.o -c /root/chatroom/server/muduo/base/Logging.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.i: cmake_force
@@ -506,7 +520,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/Logging.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o: ../server/muduo/base/ProcessInfo.cc
 server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.o -c /root/chatroom/server/muduo/base/ProcessInfo.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.i: cmake_force
@@ -520,7 +534,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/ProcessInfo.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o: ../server/muduo/base/Thread.cc
 server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/Thread.cc.o -c /root/chatroom/server/muduo/base/Thread.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.i: cmake_force
@@ -534,7 +548,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/Thread.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o: ../server/muduo/base/ThreadPool.cc
 server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.o -c /root/chatroom/server/muduo/base/ThreadPool.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.i: cmake_force
@@ -548,7 +562,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/ThreadPool.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o: ../server/muduo/base/TimeZone.cc
 server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.o -c /root/chatroom/server/muduo/base/TimeZone.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.i: cmake_force
@@ -562,7 +576,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/TimeZone.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o: ../server/muduo/base/Timestamp.cc
 server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.o -c /root/chatroom/server/muduo/base/Timestamp.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.i: cmake_force
@@ -576,7 +590,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/Timestamp.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.o: ../server/muduo/base/md5.cc
 server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.o -MF CMakeFiles/chatroom.dir/muduo/base/md5.cc.o.d -o CMakeFiles/chatroom.dir/muduo/base/md5.cc.o -c /root/chatroom/server/muduo/base/md5.cc
 
 server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.i: cmake_force
@@ -590,7 +604,7 @@ server/CMakeFiles/chatroom.dir/muduo/base/md5.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o: ../server/muduo/net/Acceptor.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.o -c /root/chatroom/server/muduo/net/Acceptor.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.i: cmake_force
@@ -604,7 +618,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Acceptor.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o: ../server/muduo/net/Buffer.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.o -c /root/chatroom/server/muduo/net/Buffer.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.i: cmake_force
@@ -618,7 +632,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Buffer.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o: ../server/muduo/net/Channel.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Channel.cc.o -c /root/chatroom/server/muduo/net/Channel.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.i: cmake_force
@@ -632,7 +646,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Channel.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o: ../server/muduo/net/Connector.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Connector.cc.o -c /root/chatroom/server/muduo/net/Connector.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.i: cmake_force
@@ -646,7 +660,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Connector.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o: ../server/muduo/net/EventLoop.cc
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.o -c /root/chatroom/server/muduo/net/EventLoop.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.i: cmake_force
@@ -660,7 +674,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/EventLoop.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o: ../server/muduo/net/EventLoopThread.cc
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.o -c /root/chatroom/server/muduo/net/EventLoopThread.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.i: cmake_force
@@ -674,7 +688,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThread.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o: ../server/muduo/net/EventLoopThreadPool.cc
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.o -c /root/chatroom/server/muduo/net/EventLoopThreadPool.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.i: cmake_force
@@ -688,7 +702,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/EventLoopThreadPool.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o: ../server/muduo/net/InetAddress.cc
 server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.o -c /root/chatroom/server/muduo/net/InetAddress.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.i: cmake_force
@@ -702,7 +716,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/InetAddress.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o: ../server/muduo/net/Poller.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Poller.cc.o -c /root/chatroom/server/muduo/net/Poller.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.i: cmake_force
@@ -716,7 +730,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Poller.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o: ../server/muduo/net/Socket.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Socket.cc.o -c /root/chatroom/server/muduo/net/Socket.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.i: cmake_force
@@ -730,7 +744,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Socket.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o: ../server/muduo/net/SocketsOps.cc
 server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.o -c /root/chatroom/server/muduo/net/SocketsOps.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.i: cmake_force
@@ -744,7 +758,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/SocketsOps.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o: ../server/muduo/net/TcpClient.cc
 server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.o -c /root/chatroom/server/muduo/net/TcpClient.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.i: cmake_force
@@ -758,7 +772,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/TcpClient.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o: ../server/muduo/net/TcpConnection.cc
 server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.o -c /root/chatroom/server/muduo/net/TcpConnection.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.i: cmake_force
@@ -772,7 +786,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/TcpConnection.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o: ../server/muduo/net/TcpServer.cc
 server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.o -c /root/chatroom/server/muduo/net/TcpServer.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.i: cmake_force
@@ -786,7 +800,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/TcpServer.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o: ../server/muduo/net/Timer.cc
 server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/Timer.cc.o -c /root/chatroom/server/muduo/net/Timer.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.i: cmake_force
@@ -800,7 +814,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/Timer.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o: ../server/muduo/net/TimerQueue.cc
 server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o -c /root/chatroom/server/muduo/net/TimerQueue.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.i: cmake_force
@@ -814,7 +828,7 @@ server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.s: cmake_force
 server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o: server/CMakeFiles/chatroom.dir/flags.make
 server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o: ../server/muduo/net/boilerplate.cc
 server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o: server/CMakeFiles/chatroom.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o"
 	cd /root/chatroom/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o -MF CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o.d -o CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o -c /root/chatroom/server/muduo/net/boilerplate.cc
 
 server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.i: cmake_force
@@ -832,6 +846,7 @@ chatroom_OBJECTS = \
 "CMakeFiles/chatroom.dir/application/api/api_login.cc.o" \
 "CMakeFiles/chatroom.dir/application/api/api_msg.cc.o" \
 "CMakeFiles/chatroom.dir/application/api/api_reg.cc.o" \
+"CMakeFiles/chatroom.dir/application/api/api_room.cc.o" \
 "CMakeFiles/chatroom.dir/application/base/base64.cpp.o" \
 "CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o" \
 "CMakeFiles/chatroom.dir/application/base/util.cc.o" \
@@ -890,6 +905,7 @@ bin/chatroom: server/CMakeFiles/chatroom.dir/application/api/api_common.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/application/api/api_login.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/application/api/api_msg.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/application/api/api_reg.cc.o
+bin/chatroom: server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/application/base/base64.cpp.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/application/base/config_file_reader.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/application/base/util.cc.o
@@ -941,7 +957,7 @@ bin/chatroom: server/CMakeFiles/chatroom.dir/muduo/net/TimerQueue.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/muduo/net/boilerplate.cc.o
 bin/chatroom: server/CMakeFiles/chatroom.dir/build.make
 bin/chatroom: server/CMakeFiles/chatroom.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Linking CXX executable ../bin/chatroom"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/chatroom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Linking CXX executable ../bin/chatroom"
 	cd /root/chatroom/build/server && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chatroom.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

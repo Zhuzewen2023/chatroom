@@ -4,7 +4,7 @@
 #include "api_common.h"
 #include "api_msg.h"
 #include "pub_sub_service.h"
-// #include "api_room.h"
+#include "api_room.h"
 #include <thread>
 #include <sstream> // 添加这个头文件
 //key:userid,  value ：websocket的智能指针 基类
@@ -295,6 +295,8 @@ void CWebSocketConn::OnRead(Buffer* buf)
                         }
                         */
                         handleRequestRoomHistory(root);
+                    } else if (type == "clientCreateRoom") {
+                        handleClientCreateRoom(root);
                     }
                 }
             }
@@ -1047,6 +1049,80 @@ int CWebSocketConn::handleRequestRoomHistory(Json::Value &root)
 //响应格式： {"type":"serverCreateRoom","payload":{"roomId":"3bb1b0b6-e91c-11ef-ba07-bd8c0260908d", "roomName":"dpdk教程"}}
 int CWebSocketConn::handleClientCreateRoom(Json::Value &root)
 {
+    std::string room_id;
+    std::string room_name;
+    Json::Value payload = root["payload"];
+    if (payload.isNull()) {
+        LOG_ERROR << "CWebSocketConn::handleClientCreateRoom payload is NULL";
+        return -1;
+    }
+    // 解析聊天室名字
+    if (payload["roomName"].isNull()) {
+        LOG_WARN << "CWebSocketConn::handleClientCreateRoom roomName is null";
+        return -1;
+    }
+
+    room_name = payload["roomName"].asString();
+    LOG_INFO << "handleClientCreateRoom create room name: " << room_name;
+
+    
+    // 分配房间id
+    room_id = generate_uuid();
+    LOG_INFO << "handleClientCreateRoom room id: " << room_id;
+    // 存储到数据库
+    std::string error_msg;
+    bool ret = api_create_room(room_id, room_name, userid_, error_msg);
+    if (!ret) {
+        LOG_ERROR << "handleClientCreateRoom api_create_room failed " << error_msg;
+        return -1;
+    }
+
+    // 把新建聊天室加入到room_list
+    Room room;
+    room.room_id = room_id;
+    room.room_name = room_name;
+    room.create_time = getCurrentTimestamp();
+    room.creator_id = userid_;
+    PubSubService::AddRoom(room);
+    PubSubService::GetInstance().AddRoomTopic(room_id, room_name, userid_);
+    // 每个人都订阅这个聊天室
+    {
+        std::lock_guard<std::mutex> lock(s_mtx_user_ws_conn_map_);
+        for (auto it = s_user_ws_conn_map.begin(); it != s_user_ws_conn_map.end(); ++it) {
+            int32_t userid = it->first;
+            PubSubService::GetInstance().AddSubscriber(room_id, userid);
+        }
+    }
+    // 广播给所有人
+    root = Json::Value();
+    payload = Json::Value();
+    root["type"] = "serverCreateRoom";
+    payload["roomId"] = room_id;
+    payload["roomName"] = room_name;
+    root["payload"] = payload;
+    Json::FastWriter fw;
+    std::string json_str = fw.write(root);
+    LOG_INFO << "serverCreateRoom: " << json_str;
+    std::string response = buildWebSocketFrame(json_str);
+    
+    auto callback = [&json_str, &room_id, &response, this](const std::unordered_set<uint32_t>& user_ids) {
+        for (auto user_id : user_ids) {
+            CHttpConnPtr ws_conn_ptr;
+            {
+                std::lock_guard<std::mutex> lock(s_mtx_user_ws_conn_map_);
+                ws_conn_ptr = s_user_ws_conn_map[user_id];
+                
+            }
+            if (ws_conn_ptr) {
+                ws_conn_ptr->send(response);
+            } else {
+                LOG_WARN << "can't find userid: " << user_id;
+            }
+
+        }
+    };
+    PubSubService::GetInstance().PublishMessage(room_id, callback);
+    return 0;
 #if 0
      LOG_INFO << "handleClientCreateRoom into";
     // 把消息解析出来
@@ -1070,6 +1146,8 @@ int CWebSocketConn::handleClientCreateRoom(Json::Value &root)
     
 
     //存储到数据库
+
+
     std::string error_msg;
     bool ret = ApiCreateRoom(roomId, roomName, userid_, error_msg);
     if(!ret ) {

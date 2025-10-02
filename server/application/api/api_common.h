@@ -19,6 +19,7 @@ std::string FormatString(const std::string &format, Args... args)
 
 /*生成随机数字符串，参数为字符串长度*/
 std::string RandomString(const int len);
+std::string generate_uuid();
 std::string api_error_id_to_string(api_error_id input);
 int set_cookie(std::string email, std::string& cookie);
 int get_username_and_userid_by_email(std::string& email, std::string& username, int32_t& userid);

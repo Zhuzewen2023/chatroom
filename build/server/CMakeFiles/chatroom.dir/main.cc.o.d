@@ -286,7 +286,8 @@ server/CMakeFiles/chatroom.dir/main.cc.o: /root/chatroom/server/main.cc \
  /root/chatroom/server/muduo/base/ThreadPool.h \
  /root/chatroom/server/application/service/http_handler.h \
  /root/chatroom/server/application/service/websocket_conn.h \
- /usr/include/signal.h \
+ /root/chatroom/server/application/api/api_room.h \
+ /root/chatroom/server/application/api/api_types.h /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
  /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \

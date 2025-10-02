@@ -122,6 +122,7 @@ public:
     }
     //获取固定的房间
     static std::vector<Room> &GetRoomList();
+    static int AddRoom(const Room& room);
 
 private:
     std::unordered_map<std::string, RoomTopicPtr> room_topic_map_;

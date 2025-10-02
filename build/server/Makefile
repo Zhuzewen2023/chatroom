@@ -226,6 +226,30 @@ application/api/api_reg.cc.s:
 	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_reg.cc.s
 .PHONY : application/api/api_reg.cc.s
 
+application/api/api_room.o: application/api/api_room.cc.o
+.PHONY : application/api/api_room.o
+
+# target to build an object file
+application/api/api_room.cc.o:
+	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_room.cc.o
+.PHONY : application/api/api_room.cc.o
+
+application/api/api_room.i: application/api/api_room.cc.i
+.PHONY : application/api/api_room.i
+
+# target to preprocess a source file
+application/api/api_room.cc.i:
+	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_room.cc.i
+.PHONY : application/api/api_room.cc.i
+
+application/api/api_room.s: application/api/api_room.cc.s
+.PHONY : application/api/api_room.s
+
+# target to generate assembly for a file
+application/api/api_room.cc.s:
+	cd /root/chatroom/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/chatroom.dir/build.make server/CMakeFiles/chatroom.dir/application/api/api_room.cc.s
+.PHONY : application/api/api_room.cc.s
+
 application/base/base64.o: application/base/base64.cpp.o
 .PHONY : application/base/base64.o
 
@@ -1447,6 +1471,9 @@ help:
 	@echo "... application/api/api_reg.o"
 	@echo "... application/api/api_reg.i"
 	@echo "... application/api/api_reg.s"
+	@echo "... application/api/api_room.o"
+	@echo "... application/api/api_room.i"
+	@echo "... application/api/api_room.s"
 	@echo "... application/base/base64.o"
 	@echo "... application/base/base64.i"
 	@echo "... application/base/base64.s"

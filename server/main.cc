@@ -10,6 +10,7 @@
 #include "pub_sub_service.h"
 #include "websocket_conn.h"
 #include "http_handler.h"
+#include "api_room.h"
 
 #include <iostream>
 #include <signal.h>
@@ -138,8 +139,32 @@ int load_room_list()
 {
     PubSubService& pubSubService = PubSubService::GetInstance();
     std::vector<Room> &room_list = PubSubService::GetRoomList();
+
     for (const auto& room : room_list) {
-        pubSubService.AddRoomTopic(room.room_id, room.room_name, 1);
+        std::string room_id = room.room_id;
+        std::string room_name;
+        int creator_id;
+        std::string create_time, update_time, error_msg;
+        if (api_get_room_info(room_id, room_name, creator_id, create_time, update_time, error_msg)) {
+            LOG_INFO << "room_id: " << room_id << ", room_name: " << room_name << "already exists in db";
+
+        } else {
+            constexpr int SYSTEM_USER_ID = 1;
+            if (!api_create_room(room.room_id, room.room_name, SYSTEM_USER_ID, error_msg)) {
+                LOG_ERROR << "failed to create room: " << room_id << ", room_name: " << room.room_name <<  "in load_room_list()";
+                continue;
+            }
+        }
+    }
+    std::vector<Room> all_rooms;
+    std::string error_msg;
+    if (!api_get_all_rooms(all_rooms, error_msg)) {
+        LOG_ERROR << "load_room_list: " << error_msg;
+        return -1;
+    }
+    for (auto& room: all_rooms) {
+        pubSubService.AddRoom(room);
+        pubSubService.AddRoomTopic(room.room_id, room.room_name, room.creator_id);
         LOG_INFO << "Added room to PubSubService: " << room.room_id << " - " << room.room_name;
     }
     return 0;
@@ -186,7 +211,10 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    load_room_list();
+    if (load_room_list() < 0) {
+        LOG_ERROR << "load room list failed";
+        return -1;
+    }
 
     const char *http_bind_ip = "0.0.0.0";
     char *str_num_event_loops = config_file.GetConfigValue("num_event_loops");  
